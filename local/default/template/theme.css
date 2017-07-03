@@ -111,10 +111,11 @@ div {
 
 .settingsDiv
 {
-	background-color: #444444;
-	border: 1px solid white;
+	background-color: #AAAAAA;
+	border: 2px solid white;
 	margin: 10px;
 	margin-top: 0px;
+	color: black;
 }
 
 .settingsHeader
