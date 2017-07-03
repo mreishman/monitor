@@ -1,6 +1,6 @@
 body {
 	color: white;
-	background-color: #191919;
+	background-color: #DDDDDD;
 	font-family: monospace;
 	padding: 0;
 	margin: 0;
@@ -15,26 +15,45 @@ div {
 }
 
 #menu {
-	position: absolute;
+	margin-right: auto;
+	margin-left: auto;
 	width: 100%;
 	z-index: 10;
-	background-color: #222;
-	padding: .5em 1em;
 	max-height: 300px;
-	border-bottom: 1px solid white;
 	overflow-y: auto;
 	overflow-x: hidden;
+background: rgb(255,255,255); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(243,243,243,1) 50%, rgba(237,237,237,1) 51%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+
 }
 
 #menu a {
 	display: inline-block;
 	padding: .5em 1em;
-	margin: .5em 0;
-	background-color: #2A912A;
 	cursor: pointer;
+	color: #555;
 }
 
-#menu a:hover, #menu a.active, .link:hover, .linkSmall:hover {
+#menu a:hover{
+	color: black;
+	background-color: white;
+}
+
+#menu a.active{
+	color: black;
+	background: rgb(255,255,255); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(241,241,241,1) 50%, rgba(225,225,225,1) 51%, rgba(246,246,246,1) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0 ); /* IE6-9 */
+
+}
+
+
+.link:hover, .linkSmall:hover {
 	color: black;
 	background-color: white !important; 
 }
@@ -241,8 +260,6 @@ div {
 }
 
 #topBarOverview{
-	border-bottom: 1px solid #999;
-	background-color: #555;
 	overflow-x: scroll;
 	height: 310px;
 	white-space: nowrap;
@@ -300,6 +317,9 @@ div {
  	font-size: 20px;
 }
 
+#bottomBarOverview{
+	background-color: #555;
+}
 
 .bottomBarOverviewHalf{
 	width: 48%; 
