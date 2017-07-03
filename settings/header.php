@@ -1,14 +1,9 @@
-<style type="text/css">
-	#menu a, .link, .linkSmall{
-		background-color: <?php echo $currentSelectedThemeColorValues[0]?>;
-	}
-</style>
 <?php
 $URI = $_SERVER['REQUEST_URI'];
 ?>
-<div id="menu">
-	<div onclick="goToUrl('../index.php');" style="display: inline-block; cursor: pointer; height: 30px; width: 30px; ">
-		<img id="pauseImage" class="menuImage" src="../core/img/backArrow.png" height="30px">
+<div id="menu" style="overflow-y: hidden;">
+	<div onclick="goToUrl('../index.php');" style="display: inline-block; cursor: pointer; height: 26px; width: 26px; margin-left: 5px;">
+		<img id="pauseImage" class="menuImage" src="../core/img/backArrow.png" height="26px" style=" margin-top: -2px; ">
 	</div>
 	<?php if(strpos($URI, 'main.php') !== false): ?>
 		<a style="cursor: default;" class="active" id="mainLink" >Main</a>
