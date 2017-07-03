@@ -22,11 +22,13 @@ $URI = $_SERVER['REQUEST_URI'];
 	<?php endif; ?>	
 			<?php  if($levelOfUpdate == 1){echo '<img src="../core/img/yellowWarning.png" height="10px">';} ?> <?php if($levelOfUpdate == 2){echo '<img src="../core/img/redWarning.png" height="10px">';} ?>Update
 		</a>
+	<!-- 
 	<?php if(strpos($URI, 'advanced.php') !== false): ?>
 		<a style="cursor: default;" class="active" id="advancedLink">Advanced</a>
 	<?php else: ?>	
 		<a id="advancedLink" onclick="goToUrl('advanced.php');">Advanced</a>
 	<?php endif; ?>
+	-->
 	<?php if(strpos($URI, 'devTools.php') !== false): ?>
 		<a style="cursor: default;" class="active" id="devToolsLink"> Dev Tools </a>
 	<?php else: ?>

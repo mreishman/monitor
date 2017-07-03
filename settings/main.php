@@ -32,7 +32,7 @@ require_once('../core/php/updateCheck.php');
 	<div id="main">	
 	<form id="topMain" action="../core/php/settingsSave.php" method="post">
 		<div class="settingsHeader">
-			Top Settings Main <button onclick="displayLoadingPopup();" >Save Changes</button>
+			Settings Main <button onclick="displayLoadingPopup();" >Save Changes</button>
 		</div>
 		<div class="settingsDiv" >
 			<ul id="settingsUl">
