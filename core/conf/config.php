@@ -8,6 +8,7 @@ $defaultConfig = array(
 	'developmentTabEnabled' => 'false',
 	'enableDevBranchDownload' => 'false',
 	'dontNotifyVersion'	=> '0',
+	'updateNoticeMeter'	=> 'every',
 	'popupSettings'	=>	'all',
 	'pollingRateOverviewMainType'	=> 'Milliseconds',
 	'pollingRateOverviewSlowType'	=> 'Milliseconds',
