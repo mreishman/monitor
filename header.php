@@ -87,5 +87,14 @@ $URI = $_SERVER['REQUEST_URI'];
 	<?php else: ?>
 		<a id="mainLink" onclick="window.location.href =  'overview.php';" >Overview</a>
 	<?php endif; ?>
+	<?php if(file_exists('../status/index.php')): ?>
+		<a id="mainLink"  onclick="window.location.href =  '../status/';" >gitStatus</a>
+	<?php endif;?>
+	<?php if(file_exists('../Log-Hog/index.php')): ?>
+		<a id="mainLink"  onclick="window.location.href =  '../Log-Hog/';" >Log-Hog</a>
+	<?php endif;?>
+	<?php if(file_exists('../loghog/index.php')): ?>
+		<a id="mainLink"  onclick="window.location.href =  '../loghog/';" >Loghog</a>
+	<?php endif;?>
 </div>
 <?php endif; ?>
