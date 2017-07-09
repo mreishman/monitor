@@ -22,7 +22,7 @@ if(file_exists($baseRedirect.'local/layout.php'))
 	require_once($baseRedirect.'local/layout.php');
 	$baseUrl .= $currentSelectedTheme."/";
 }
-if(!file_exists($baseUrl.'conf/config.php'))
+if(!file_exists($baseUrl.'conf/config.php') && $monitorStatus['withLogHog'] != 'true')
 {
 	$partOfUrl = clean_url($_SERVER['REQUEST_URI']);
 	$url = "http://" . $_SERVER['HTTP_HOST'] .$partOfUrl ."setup/welcome.php";
