@@ -1,4 +1,3 @@
-
 <meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0">
 <meta http-equiv="expires" content="Sat, 31 Oct 2014 00:00:00 GMT">
 <meta http-equiv="pragma" content="no-cache">
@@ -17,6 +16,17 @@ require_once('../core/conf/config.php');
 require_once('../core/php/configStatic.php');
 require_once('../core/php/loadVars.php');
 require_once('../core/php/updateCheck.php');
+$seperateFromLogHog = true;
+if(file_exists('../top/statusTest.php'))
+{
+	$seperateFromLogHog = false;
+}
+if(file_exists($baseUrl.'conf/topConfig.php'))
+{
+	require_once($baseUrl.'conf/topConfig.php'); 
+} 
+require_once('../core/conf/configTop.php');
+require_once('../core/php/loadVarsTop.php');
 ?>
 <!doctype html>
 <head>
@@ -36,6 +46,7 @@ require_once('../core/php/updateCheck.php');
 		</div>
 		<div class="settingsDiv" >
 			<ul id="settingsUl">
+			<?php if($seperateFromLogHog): ?>
 				<li>
 					<span class="settingsBuffer" > Auto Check Update: </span> 
 						<select id="settingsSelect" name="autoCheckUpdate">
@@ -95,6 +106,7 @@ require_once('../core/php/updateCheck.php');
 						</div>
 					</div>
 				</li>
+			<?php endif;?>
 				<li>
 					<span class="settingsBuffer" > Poll Rate Main: </span>  <input type="text" name="pollingRateOverviewMain" value="<?php echo $pollingRateOverviewMain;?>" >
 					<select name="pollingRateOverviewMainType">
