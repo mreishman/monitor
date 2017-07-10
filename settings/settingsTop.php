@@ -38,7 +38,7 @@ require_once('../core/php/loadVarsTop.php');
 <body>
 
 <?php require_once('header.php');?>	
-
+	<?php if($seperateFromLogHog): ?>
 	<div id="main">	
 	<form id="settingsMainVars" action="../core/php/settingsSave.php" method="post">
 		<div class="settingsHeader">
@@ -46,7 +46,7 @@ require_once('../core/php/loadVarsTop.php');
 		</div>
 		<div class="settingsDiv" >
 			<ul id="settingsUl">
-			<?php if($seperateFromLogHog): ?>
+			
 				<li>
 					<span class="settingsBuffer" > Auto Check Update: </span> 
 						<select id="settingsSelect" name="autoCheckUpdate">
@@ -106,7 +106,18 @@ require_once('../core/php/loadVarsTop.php');
 						</div>
 					</div>
 				</li>
-			<?php endif;?>
+			</ul>
+		</div>
+	</form>
+	</div>
+	<?php endif;?>
+	<div id="main">	
+	<form id="settingsMainVars" action="../core/php/settingsSaveTop.php" method="post">
+		<div class="settingsHeader">
+			Top Settings <button onclick="displayLoadingPopup();" >Save Changes</button>
+		</div>
+		<div class="settingsDiv" >
+			<ul id="settingsUl">
 				<li>
 					<span class="settingsBuffer" > Poll Rate Main: </span>  <input type="text" name="pollingRateOverviewMain" value="<?php echo $pollingRateOverviewMain;?>" >
 					<select name="pollingRateOverviewMainType">
