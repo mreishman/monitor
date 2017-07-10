@@ -80,7 +80,7 @@ $URI = $_SERVER['REQUEST_URI'];
 	<?php if(strpos($URI, 'settings.php') !== false): $notThisPage = false; ?>
 		<a id="settingsLink" class="active" id="mainLink">Settings</a>
 	<?php else: ?>
-		<a id="settingsLink" onclick="window.location.href = 'settings/main.php';" >Settings</a>
+		<a id="settingsLink" onclick="window.location.href = 'settings/settingsTop.php';" >Settings</a>
 	<?php endif; ?>
 	<?php if($notThisPage): ?>
 		<a style="cursor: default;" class="active" id="mainLink" >Overview</a>
