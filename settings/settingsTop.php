@@ -45,9 +45,9 @@ require_once('../core/php/loadVarsTop.php');
 	<?php if($seperateFromLogHog): ?>
 	<div id="main">	
 		<?php require_once('../core/php/settingsTopMain.php'); ?>
-	</div>
-	<?php endif;?>
+	<?php else:?>
 	<div id="main">	
+	<?php endif;?>
 		<?php require_once('../core/php/settingsTop.php'); ?>
 	</div>
 	<?php readfile('../core/html/popup.html') ?>	
