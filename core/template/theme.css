@@ -149,7 +149,6 @@ div {
 {
 	display: inline-block;
 	padding: .5em 1em;
-	background-color: #2A912A;
 	cursor: pointer;
 	border: solid 1px white;
 	color: white;
@@ -160,7 +159,6 @@ div {
 	display: inline-block;
 	padding: 3px 5px;
 	margin: 1px;
-	background-color: #2A912A;
 	cursor: pointer;
 	border: solid 1px white;
 	line-height: 100%;
