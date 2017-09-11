@@ -98,26 +98,26 @@ else
 {
 	$enableDevBranchDownload = $defaultConfig['enableDevBranchDownload'];
 }
-if(isset($_POST['popupWarnings']))
+if(isset($_POST['popupSettings']))
 {
-	$popupWarnings = $_POST['popupWarnings'];
+	$popupSettings = $_POST['popupSettings'];
 }
 elseif(array_key_exists('popupSettings', $config))
 {
-	$popupWarnings = $config['popupSettings'];
+	$popupSettings = $config['popupSettings'];
 }
 else
 {
-	$popupWarnings = $defaultConfig['popupSettings'];
+	$popupSettings = $defaultConfig['popupSettings'];
 }
 
 if(array_key_exists('popupSettingsCustom', $config))
 {
-	$popupSettingsArray = $config['popupSettingsCustom'];
+	$popupSettingsCustom = $config['popupSettingsCustom'];
 }
 else
 {
-	$popupSettingsArray = $defaultConfig['popupSettingsCustom'];
+	$popupSettingsCustom = $defaultConfig['popupSettingsCustom'];
 }
 if(isset($_POST['autoCheckDaysUpdate']))
 {
@@ -217,44 +217,48 @@ else
 }
 
 
+if($_SERVER['REQUEST_METHOD'] == 'POST')
+{
 
-$popupSettingsArraySave = "";
-if($popupWarnings == "all")
-{
-	$popupSettingsArraySave = "
-		'saveSettings'	=>	'true',
-		'versionCheck'	=> 'true'
-		";
-}
-elseif($popupWarnings == "none")
-{
-	$popupSettingsArraySave = "
-		'saveSettings'	=>	'false',
-		'versionCheck'	=> 'false'
-		";
-}
-else
-{
-	if(isset($_POST['saveSettings']))
+	$popupSettingsArraySave = "";
+	if($popupSettings == "all")
 	{
 		$popupSettingsArraySave = "
-		'saveSettings'	=>	'".$_POST['saveSettings']."',
-		'versionCheck'	=> '".$_POST['versionCheck']."'
-		";
+			'saveSettings'	=>	'true',
+			'versionCheck'	=> 'true'
+			";
+	}
+	elseif($popupSettings == "none")
+	{
+		$popupSettingsArraySave = "
+			'saveSettings'	=>	'false',
+			'versionCheck'	=> 'false'
+			";
 	}
 	else
 	{
-		$popupSettingsArraySave = "";
-		$count = 0;
-		foreach ($popupSettingsArray as $key => $value)
+		if(isset($_POST['saveSettings']))
 		{
-			$popupSettingsArraySave .= "'".$key."'	=>	'".$value."'";
-			$count++;
-			if($count != 2)
+			$popupSettingsArraySave = "
+			'saveSettings'	=>	'".$_POST['saveSettings']."',
+			'versionCheck'	=> '".$_POST['versionCheck']."'
+			";
+		}
+		else
+		{
+			$popupSettingsArraySave = "";
+			$count = 0;
+			foreach ($popupSettingsCustom as $key => $value)
 			{
-				$popupSettingsArraySave .= ",";
+				$popupSettingsArraySave .= "'".$key."'	=>	'".$value."'";
+				$count++;
+				if($count != 2)
+				{
+					$popupSettingsArraySave .= ",";
+				}
 			}
 		}
 	}
+	$popupSettingsCustom = $popupSettingsArraySave;
 }
 ?>
