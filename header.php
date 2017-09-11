@@ -18,12 +18,12 @@ $URI = $_SERVER['REQUEST_URI'];
 	<?php else: ?>
 		<a id="mainLink" onclick="window.location.href =  'overview.php';" >Overview</a>
 	<?php endif; ?>
-	<!-- 
 	<?php if(strpos($URI, 'cpu.php') !== false): ?>
 		<a style="cursor: default;" class="active" id="mainLink" >CPU</a>
 	<?php else: ?>
 		<a id="mainLink" onclick="window.location.href =  'cpu.php';" >CPU</a>
 	<?php endif; ?>
+	<!-- 
 	<?php if(strpos($URI, 'disk.php') !== false): ?>
 		<a style="cursor: default;" class="active" id="mainLink" >Disk</a>
 	<?php else: ?>
@@ -63,14 +63,14 @@ $URI = $_SERVER['REQUEST_URI'];
 	<?php if($notThisPage): ?>
 		<a style="cursor: default;" class="active" id="mainLink" >Overview</a>
 	<?php else: ?>
-		<a id="mainLink" onclick="window.location.href =  'overview.php';" >Overview</a>
-	<?php endif; ?>
-	<!-- 
+		<a id="mainLink" onclick="window.location.href =  'index.php';" >Overview</a>
+	<?php endif; ?> 
 	<?php if(strpos($URI, 'cpu.php') !== false): ?>
 		<a style="cursor: default;" class="active" id="mainLink" >CPU</a>
 	<?php else: ?>
 		<a id="mainLink" onclick="window.location.href =  'cpu.php';" >CPU</a>
 	<?php endif; ?>
+	<!--
 	<?php if(strpos($URI, 'disk.php') !== false): ?>
 		<a style="cursor: default;" class="active" id="mainLink" >Disk</a>
 	<?php else: ?>
