@@ -25,7 +25,7 @@ require_once('../core/php/updateCheck.php');
 	<div id="main">
 	<form id="devAdvanced" action="../core/php/settingsSave.php" method="post">
 		<div class="settingsHeader">
-			Branch Settings  <button onclick="displayLoadingPopup();" >Save Changes</button>
+			Branch Settings  <button class="linkSmall" onclick="displayLoadingPopup();" >Save Changes</button>
 		</div>
 		<div class="settingsDiv" >
 			<ul id="settingsUl">
@@ -49,22 +49,8 @@ require_once('../core/php/updateCheck.php');
 </body>
 <script src="../core/js/settings.js"></script>
 <script type="text/javascript">
-	var popupSettingsArray = JSON.parse('<?php echo json_encode($popupSettingsArray) ?>');
 	function goToUrl(url)
 	{
-		var goToPage = true
-		if(document.getElementsByName("enableDevBranchDownload")[0].value != "<?php echo $enableDevBranchDownload;?>")
-		{
-			goToPage = false;
-		}
-
-		if(goToPage || popupSettingsArray.saveSettings == "false")
-		{
-			window.location.href = url;
-		}
-		else
-		{
-			displaySavePromptPopup(url);
-		}
+		window.location.href = url;
 	}
 </script>

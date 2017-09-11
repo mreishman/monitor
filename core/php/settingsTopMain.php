@@ -1,6 +1,6 @@
 <form id="settingsMainVars" action="../core/php/settingsSave.php" method="post">
 		<div class="settingsHeader">
-			Main Settings <button onclick="displayLoadingPopup();" >Save Changes</button>
+			Main Settings <button class="linkSmall" onclick="displayLoadingPopup();" >Save Changes</button>
 		</div>
 		<div class="settingsDiv" >
 			<ul id="settingsUl">
