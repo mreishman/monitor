@@ -5,7 +5,6 @@ function clean_url($url) {
     return $parts['path'];
 }
 
-
 require_once('statusTest.php');
 $baseRedirect = "";
 $baseRedirectTwo = "";
