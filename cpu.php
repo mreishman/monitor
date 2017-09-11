@@ -50,7 +50,7 @@ $useTop = false;
 ?>
 <!doctype html>
 <head>
-	<title>Top | Overview</title>
+	<title>Top | CPU</title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
 	<link rel="icon" type="image/png" href="<?php echo $baseRedirectTwo; ?>core/img/favicon.png" />
 	<script src="<?php echo $baseRedirect; ?>core/js/jquery.js"></script>
