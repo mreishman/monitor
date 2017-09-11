@@ -25,21 +25,31 @@ require_once('loadVars.php');
 
 	//Don't forget to update Ajax version
 
-	$newInfoForConfig = "
-	<?php
-		$"."config = array(
-			'pollingRateOverviewMain' => '".$pollingRateOverviewMain."',
-			'pollingRateOverviewSlow' => '".$pollingRateOverviewSlow."',
-			'autoCheckUpdate' => '".$autoCheckUpdate."',
-			'autoCheckDaysUpdate'	=>	'".$autoCheckDaysUpdate."',
-			'developmentTabEnabled' => '".$developmentTabEnabled."',
-			'enableDevBranchDownload' => '".$enableDevBranchDownload."',
-			'popupSettings'	=>	'".$popupWarnings."',
-			'pollingRateOverviewMainType'	=> '".$pollingRateOverviewMainType."',
-			'pollingRateOverviewSlowType'	=> '".$pollingRateOverviewSlowType."',
-			'baseUrlUpdate'	=> '".$baseUrlUpdate."',
-			'dontNotifyVersion'	=> '".$dontNotifyVersion."',
-			'updateNoticeMeter'	=> '".$updateNoticeMeter."'
+	$newInfoForConfig = "<?php
+	$"."config = array(
+	";
+	foreach ($defaultConfig as $key => $value)
+	{
+		if(is_string($value))
+		{
+			$newInfoForConfig .= "
+			'".$key."' => '".$$key."',
+		";
+		}
+		elseif(is_array($value))
+		{
+			$newInfoForConfig .= "
+			'".$key."' => array(".$$key."),
+		";
+		}
+		else
+		{
+			$newInfoForConfig .= "
+			'".$key."' => ".$$key.",
+		";
+		}
+	}
+	$newInfoForConfig .= "
 		);
 	?>";
 

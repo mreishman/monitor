@@ -89,7 +89,7 @@ $totalUpgradeScripts = floatval($configVersionToUpgradeTo) - floatval($configVer
 		}
 		else
 		{
-			window.location.href = "../../../settings/whatsNew.php";
+			window.location.href = "../../../settings/update.php";
 		}
 	});
 
@@ -202,7 +202,7 @@ $totalUpgradeScripts = floatval($configVersionToUpgradeTo) - floatval($configVer
 	{
 		document.getElementById('verifyCheck').style.display = "block";
 		document.getElementById('verifyLoad').style.display = "none";
-		window.location.href = "../../../settings/main.php";
+		window.location.href = "../../../settings/update.php";
 	}
 
 </script> 

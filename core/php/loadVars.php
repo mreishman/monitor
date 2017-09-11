@@ -33,10 +33,12 @@ else
 require_once($varToIndexDir.'core/conf/config.php');
 
 $URI = $_SERVER['REQUEST_URI'];
+$layoutVersion = 0;
+$configVersion = 0;
 if($boolForUpgrade && (strpos($URI, 'upgradeLayout') === false) && (strpos($URI, 'upgradeConfig') === false) && (strpos($URI, 'core/php/template/upgrade') === false))
 {
 	//check if upgrade script is needed
-	$layoutVersion = 0;
+	
 	if(isset($config['layoutVersion']))
 	{
 		$layoutVersion = $config['layoutVersion'];
@@ -48,7 +50,6 @@ if($boolForUpgrade && (strpos($URI, 'upgradeLayout') === false) && (strpos($URI,
 		exit();
 	}
 
-	$configVersion = 0;
 	if(isset($config['configVersion']))
 	{
 		$configVersion = $config['configVersion'];
