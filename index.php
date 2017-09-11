@@ -351,27 +351,38 @@ $useTop = false;
 	setInterval(poll, <?php echo $pollingRateOverviewMain; ?>);
 	setInterval(slowPoll, <?php echo $pollingRateOverviewSlow; ?>);
 	
-	var offsetHeight = 0;
-	var offsetHeight2 = 0;
-	if(document.getElementById('menu'))
+	function resize()
 	{
-		offsetHeight = document.getElementById('menu').offsetHeight;
+		var offsetHeight = 0;
+		var offsetHeight2 = 0;
+		if(document.getElementById('menu'))
+		{
+			offsetHeight = document.getElementById('menu').offsetHeight;
+		}
+		if(document.getElementById('topBarOverview'))
+		{
+			offsetHeight2 = document.getElementById('topBarOverview').offsetHeight;
+			offsetHeight2 = offsetHeight2;
+		}
+		var heightOfMain = window.innerHeight - offsetHeight;
+		var heightOfMainStyle = 'height:';
+		heightOfMainStyle += heightOfMain;
+		heightOfMainStyle += 'px';
+		document.getElementById("main").setAttribute("style",heightOfMainStyle);
+		heightOfMain = window.innerHeight - offsetHeight - offsetHeight2;
+		heightOfMainStyle = 'height:';
+		heightOfMainStyle += heightOfMain;
+		heightOfMainStyle += 'px';
+		document.getElementById("processIds").setAttribute("style",heightOfMainStyle);
+		document.getElementById("networkArea").setAttribute("style",heightOfMainStyle);
 	}
-	if(document.getElementById('topBarOverview'))
+
+	$(document).ready(function()
 	{
-		offsetHeight2 = document.getElementById('topBarOverview').offsetHeight;
-		offsetHeight2 = offsetHeight2;
-	}
-	var heightOfMain = window.innerHeight - offsetHeight;
-	var heightOfMainStyle = 'height:';
-	heightOfMainStyle += heightOfMain;
-	heightOfMainStyle += 'px';
-	document.getElementById("main").setAttribute("style",heightOfMainStyle);
-	heightOfMain = window.innerHeight - offsetHeight - offsetHeight2;
-	heightOfMainStyle = 'height:';
-	heightOfMainStyle += heightOfMain;
-	heightOfMainStyle += 'px';
-	document.getElementById("processIds").setAttribute("style",heightOfMainStyle);
-	document.getElementById("networkArea").setAttribute("style",heightOfMainStyle);
+		resize();
+		window.onresize = resize;
+
+	});
+
 	</script>
 </body>
