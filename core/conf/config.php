@@ -3,6 +3,8 @@
 $defaultConfig = array(
 	'pollingRateOverviewMain' => 1000,
 	'pollingRateOverviewSlow' => 10000,
+	'configVersion'	=> 1,
+	'layoutVersion'	=> 1,
 	'autoCheckUpdate' => 'true',
 	'autoCheckDaysUpdate'	=>	'7',
 	'developmentTabEnabled' => 'false',

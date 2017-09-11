@@ -151,7 +151,7 @@ if(count($arrayOfVersions) === 0)
 		<?php endif; ?>
 		</span>
 		<div id="menu" style="margin-right: auto; margin-left: auto; position: relative; display: none;">
-			<h2 style="color: white;">If this page doesn't redirect within 10 seconds... click here:</h2>
+			<h2 style="color: black;">If this page doesn't redirect within 10 seconds... click here:</h2>
 			<br>
 			<a onclick="window.location.href = '../settings/update.php'">Back to Monitor</a>
 		</div>
@@ -963,7 +963,7 @@ if(count($arrayOfVersions) === 0)
 			document.getElementById('titleHeader').innerHTML = "<h1>Finished Update</h1>";
 			document.getElementById('progressBar').value = 100;
 			updateStatusFunc("Finished Updating to ","finishedUpdate",100);
-			window.location.href = "../settings/whatsNew.php";
+			window.location.href = "../settings/update.php";
 		}
 		else
 		{

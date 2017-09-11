@@ -1,7 +1,7 @@
 <?php
-	$updateProgress = array(
-  	'currentStep'   => 'Finished Updating to ',
-  	'action' => 'finishedUpdate'
-	);
-	?>
-	
+$updateProgress = array(
+'currentStep'   => 'Finished Updating to ',
+'action' => 'finishedUpdate',
+'percent' => 100
+);
+?>

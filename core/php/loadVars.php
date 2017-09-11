@@ -20,6 +20,7 @@ if(file_exists($varToIndexDir.'local/layout.php'))
   require_once($varToIndexDir.'local/layout.php');
   $baseUrl .= $currentSelectedTheme."/";
 }
+$boolForUpgrade = true;
 if(file_exists($baseUrl.'conf/config.php'))
 {
 	require_once($baseUrl.'conf/config.php'); 
@@ -27,9 +28,38 @@ if(file_exists($baseUrl.'conf/config.php'))
 else
 {
 	$config = array();
+	$boolForUpgrade = false;
 }
 require_once($varToIndexDir.'core/conf/config.php');
 
+$URI = $_SERVER['REQUEST_URI'];
+if($boolForUpgrade && (strpos($URI, 'upgradeLayout') === false) && (strpos($URI, 'upgradeConfig') === false) && (strpos($URI, 'core/php/template/upgrade') === false))
+{
+	//check if upgrade script is needed
+	$layoutVersion = 0;
+	if(isset($config['layoutVersion']))
+	{
+		$layoutVersion = $config['layoutVersion'];
+	}
+	if($layoutVersion !== $defaultConfig['layoutVersion'])
+	{
+		//redirect to upgrade script for layoutVersion page
+		header("Location: ".$varToIndexDir."core/php/template/upgradeLayout.php");
+		exit();
+	}
+
+	$configVersion = 0;
+	if(isset($config['configVersion']))
+	{
+		$configVersion = $config['configVersion'];
+	}
+	if($configVersion !== $defaultConfig['configVersion'])
+	{
+		//redirect to upgrade script for config page
+		header("Location: ".$varToIndexDir."core/php/template/upgradeConfig.php");
+		exit();
+	}
+}
 
 if(isset($_POST['autoCheckUpdate']))
 {
