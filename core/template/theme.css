@@ -37,7 +37,7 @@ div {
 	color: #555;
 }
 
-#menu a:hover{
+#menu a:not(.noHover):hover{
 	color: black;
 	background-color: white;
 }
