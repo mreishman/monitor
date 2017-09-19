@@ -67,7 +67,16 @@ $useTop = false;
 <?php require_once('header.php');?>	
 
 	<div id="main">
-		
+		<table id="mainTable" width="100%">
+			<tr>
+				<td width="50%" valign="top">
+
+				</td>
+				<td width="50%" valign="top" id="processIds" style="background-color: #333;">
+
+				</td>
+			</tr>
+		</table>
 	</div>
 	<script type="text/javascript">
 		var baseRedirect = "";
@@ -75,5 +84,74 @@ $useTop = false;
 			baseRedirect = "../";
 		<?php endif; ?>
 	</script>
-	<?php readfile($baseRedirect.'core/html/popup.html') ?>	
+	<?php readfile($baseRedirect.'core/html/popup.html') ?>
+	<script src="<?php echo $baseRedirect; ?>core/js/top.js"></script>
+
+	<script type="text/javascript">
+
+	var processFilterByRow = <?php echo $defaultProcessorSort;?>;
+	var selectedUser = "USER";
+	var baseForSystemTime = 0;
+	var heightForPopup = 0;
+	var widthForPopup = 0;
+
+	function psAuxFunction()
+	{
+		if(!dropdownMenuVisible)
+		{
+		$.getJSON('functions/psAux.php', {}, function(data) {
+				processDataFrompsAux(data);
+			})
+		}
+	}
+
+	function processDataFrompsAux(data)
+	{
+		filterDataForProcessesPreSort(data);
+	}
+
+	function poll()
+	{
+
+	}
+
+	function slowPoll()
+	{
+		psAuxFunction();
+	}
+
+	poll();
+	slowPoll();
+	setInterval(poll, <?php echo $pollingRateOverviewMain; ?>);
+	setInterval(slowPoll, <?php echo $pollingRateOverviewSlow; ?>);
+	
+	function resize()
+	{
+		var offsetHeight = 0;
+		var offsetHeight2 = 0;
+		if(document.getElementById('menu'))
+		{
+			offsetHeight = document.getElementById('menu').offsetHeight;
+		}
+		if(document.getElementById('topBarOverview'))
+		{
+			offsetHeight2 = document.getElementById('topBarOverview').offsetHeight;
+			offsetHeight2 = offsetHeight2;
+		}
+		var heightOfMain = window.innerHeight - offsetHeight;
+		var heightOfMainStyle = 'height:';
+		heightOfMainStyle += heightOfMain;
+		heightOfMainStyle += 'px';
+		document.getElementById("main").setAttribute("style",heightOfMainStyle);
+		document.getElementById("mainTable").setAttribute("style",heightOfMainStyle);
+	}
+
+	$(document).ready(function()
+	{
+		resize();
+		window.onresize = resize;
+
+	});
+
+	</script>	
 </body>
