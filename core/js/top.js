@@ -313,7 +313,7 @@ function filterDataForMpStat(dataInner)
 			baseArrayForCPUMultiCore = baseArray;
 			var arrayOfArraysToFillWith = [arrayToShowInConsole, arrayToShowInConsole2, arrayToShowInConsole3];
 			popupFillInChart(popupFillArea, baseArrayForCPUMultiCore, arrayOfArraysToFillWith);
-			document.getElementById('popupGraphLowerTr').innerHTML = "<th style='background-color:blue; width:25px;'><th  style='text-align:left;'>Current: "+arrayToShowInConsole[arrayToShowInConsoleLength-1]+"% of "+maxOfArray+" kB</th></th>";
+			document.getElementById('popupGraphLowerTr').innerHTML = "<th  style='text-align:left;'>Total: "+((parseFloat(arrayToShowInConsole[arrayToShowInConsoleLength-1]) + parseFloat(arrayToShowInConsole2[arrayToShowInConsoleLength-1]) + parseFloat(arrayToShowInConsole3[arrayToShowInConsoleLength-1])).toFixed(2))+"%</th><th style='background-color:blue; width:25px;'></th><th  style='text-align:left;'>User: "+arrayToShowInConsole[arrayToShowInConsoleLength-1]+"%</th><th style='background-color:red; width:25px;'></th><th  style='text-align:left;'>System: "+arrayToShowInConsole2[arrayToShowInConsoleLength-1]+"%</th><th style='background-color:yellow; width:25px;'></th><th  style='text-align:left;'>User: "+arrayToShowInConsole3[arrayToShowInConsoleLength-1]+"%</th>";
 		}
 	}
 
