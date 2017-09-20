@@ -1,4 +1,5 @@
 var dropdownMenuVisible = false;
+var baseArrayForCPUMultiCore = new Array();
 
 function killProcess(processNumber)
 {
@@ -277,14 +278,23 @@ function filterDataForMpStat(dataInner)
 	{
 		//create array from column in array of arrays 
 		var arrayToShowInConsole = new Array();
+		var arrayToShowInConsole2 = new Array();
+		var arrayToShowInConsole3 = new Array();
+
 		var baseArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+		baseArrayForCPUMultiCore = baseArray;
 		for (var j = 0; j < (60 - arrayForCpuMultiLength); j++) 
 		{
 			arrayToShowInConsole.push(0);
+			arrayToShowInConsole2.push(0);
+			arrayToShowInConsole3.push(0);
 		}
 		for (var j = 0; j < (arrayForCpuMultiLength); j++) 
 		{
 			arrayToShowInConsole.push(arrayForCpuMulti[j][i][1]);
+			arrayToShowInConsole2.push(arrayForCpuMulti[j][i][2]);
+			arrayToShowInConsole3.push(arrayForCpuMulti[j][i][3]);
+
 		}
 		var maxOfArray = 100;
 		var arrayToShowInConsoleLength = arrayToShowInConsole.length;
@@ -293,13 +303,16 @@ function filterDataForMpStat(dataInner)
 			arrayToShowInConsole[j] = ((arrayToShowInConsole[j]/maxOfArray)*100).toFixed(1);
 		}
 		var fillThis = document.getElementById("diskIO"+i+"-write").getContext("2d");
-		fillAreaInChart(arrayToShowInConsole, baseArray, "blue",fillThis, heightForCanvas, widthForCanvas,1);
+		fillAreaInChart(arrayToShowInConsole, baseArrayForCPUMultiCore, "blue",fillThis, heightForCanvas, widthForCanvas,1);
+		fillAreaInChart(arrayToShowInConsole2, baseArrayForCPUMultiCore, "red",fillThis, heightForCanvas, widthForCanvas,1);
+		fillAreaInChart(arrayToShowInConsole3, baseArrayForCPUMultiCore, "yellow",fillThis, heightForCanvas, widthForCanvas,1);
 
 		var popupFillArea = document.getElementById("diskIO"+i+"writePopupCanvas");
 		if(popupFillArea)
 		{
-			var arrayOfArraysToFillWith = [arrayToShowInConsole];
-			popupFillInChart(popupFillArea, baseArray, arrayOfArraysToFillWith);
+			baseArrayForCPUMultiCore = baseArray;
+			var arrayOfArraysToFillWith = [arrayToShowInConsole, arrayToShowInConsole2, arrayToShowInConsole3];
+			popupFillInChart(popupFillArea, baseArrayForCPUMultiCore, arrayOfArraysToFillWith);
 			document.getElementById('popupGraphLowerTr').innerHTML = "<th style='background-color:blue; width:25px;'><th  style='text-align:left;'>Current: "+arrayToShowInConsole[arrayToShowInConsoleLength-1]+"% of "+maxOfArray+" kB</th></th>";
 		}
 	}
