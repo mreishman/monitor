@@ -69,11 +69,15 @@ $useTop = false;
 	<div id="main">
 		<table id="mainTable" width="100%">
 			<tr>
-				<td width="50%" valign="top" id="cpuAreaMultiCore">
-					<img id="canvasMonitorLoading_CPU" style="position: fixed; top: 50%; left: 25%;" src='<?php echo $baseRedirectTwo; ?>core/img/loading.gif' height='50' width='50'> 
+				<td width="50%" valign="top" >
+					<div id="cpuAreaMultiCore" class="bottomBarOverviewHalf">
+						<img id="canvasMonitorLoading_CPU" style="position: fixed; top: 50%; left: 25%;" src='<?php echo $baseRedirectTwo; ?>core/img/loading.gif' height='50' width='50'>
+					</div> 
 				</td>
-				<td width="50%" valign="top" id="processIds" style="background-color: #333;">
-					<img id="canvasMonitorLoading_ProcessIds" style="position: fixed; top: 50%; right: 25%;"  src='<?php echo $baseRedirectTwo; ?>core/img/loading.gif' height='50' width='50'> 
+				<td width="50%" valign="top" style="background-color: #333;">
+					<div id="processIds"  class="bottomBarOverviewHalf">
+						<img id="canvasMonitorLoading_ProcessIds" style="position: fixed; top: 50%; right: 25%;"  src='<?php echo $baseRedirectTwo; ?>core/img/loading.gif' height='50' width='50'> 
+					</div>
 				</td>
 			</tr>
 		</table>
@@ -156,7 +160,8 @@ $useTop = false;
 		heightOfMainStyle += heightOfMain;
 		heightOfMainStyle += 'px';
 		document.getElementById("main").setAttribute("style",heightOfMainStyle);
-		document.getElementById("mainTable").setAttribute("style",heightOfMainStyle);
+		document.getElementById("cpuAreaMultiCore").setAttribute("style",heightOfMainStyle+"; width: 100%;");
+		document.getElementById("processIds").setAttribute("style",heightOfMainStyle+"; width: 100%;");
 	}
 
 	$(document).ready(function()
