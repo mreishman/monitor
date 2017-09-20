@@ -101,8 +101,20 @@ $useTop = false;
 		{
 		$.getJSON('functions/psAux.php', {}, function(data) {
 				processDataFrompsAux(data);
-			})
+			});
 		}
+	}
+
+	function mpstatFunction()
+	{
+		$.getJSON('functions/mpstat.php', {}, function(data) {
+				processDataFromMpStat(data);
+			});
+	}
+
+	function processDataFromMpStat(data)
+	{
+		filterDataForMpStat(data);
 	}
 
 	function processDataFrompsAux(data)
@@ -112,7 +124,7 @@ $useTop = false;
 
 	function poll()
 	{
-
+		mpstatFunction();
 	}
 
 	function slowPoll()
@@ -122,8 +134,8 @@ $useTop = false;
 
 	poll();
 	slowPoll();
-	setInterval(poll, <?php echo $pollingRateOverviewMain; ?>);
-	setInterval(slowPoll, <?php echo $pollingRateOverviewSlow; ?>);
+	//setInterval(poll, <?php echo $pollingRateOverviewMain; ?>);
+	//setInterval(slowPoll, <?php echo $pollingRateOverviewSlow; ?>);
 	
 	function resize()
 	{

@@ -217,6 +217,45 @@ function filterData(dataInner, maxRowNum)
 
 }
 
+function stringToTimeVerify(data)
+{
+	var pieces = (data+"").split(':')
+    var hour, minute, second;
+
+	if(pieces.length === 3) 
+	{
+	    hour = parseInt(pieces[0], 10);
+	    minute = parseInt(pieces[1], 10);
+	    second = parseInt(pieces[2], 10);
+	}
+
+	if(isInt(hour) && isInt(minute) && isInt(second))
+	{
+		return true;
+	}
+	return false;
+}
+
+function filterDataForMpStat(dataInner)
+{
+	dataInnerFiltered = filterData(dataInner, 11);
+	var startCount = 3;
+	var dataInnerNew = new Array();
+	while(stringToTimeVerify(dataInnerFiltered[startCount]))
+	{
+		var dataFromRow = [dataInnerFiltered[startCount][1], dataInnerFiltered[startCount][2], dataInnerFiltered[startCount][4], dataInnerFiltered[startCount][7]];
+		dataInnerNew.push(dataFromRow);
+		startCount++;
+	}
+	
+	for (var i = dataInnerNew.length - 1; i >= 0; i--)
+	{
+		console.log(dataInnerNew[i])
+	}
+
+
+}
+
 function filterDataFromRUsage(dataInner)
 {
 	phpUserTimeDiff.push((parseFloat(dataInner['ru_utime.tv_usec'])) + (1000000*dataInner["ru_utime.tv_sec"]));
