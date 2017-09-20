@@ -69,11 +69,11 @@ $useTop = false;
 	<div id="main">
 		<table id="mainTable" width="100%">
 			<tr>
-				<td width="50%" valign="top">
-
+				<td width="50%" valign="top" id="cpuAreaMultiCore">
+					<img id="canvasMonitorLoading_CPU" style="position: fixed; top: 50%; left: 25%;" src='<?php echo $baseRedirectTwo; ?>core/img/loading.gif' height='50' width='50'> 
 				</td>
 				<td width="50%" valign="top" id="processIds" style="background-color: #333;">
-
+					<img id="canvasMonitorLoading_ProcessIds" style="position: fixed; top: 50%; right: 25%;"  src='<?php echo $baseRedirectTwo; ?>core/img/loading.gif' height='50' width='50'> 
 				</td>
 			</tr>
 		</table>
@@ -94,6 +94,7 @@ $useTop = false;
 	var baseForSystemTime = 0;
 	var heightForPopup = 0;
 	var widthForPopup = 0;
+	var arrayForCpuMulti = new Array();
 
 	function psAuxFunction()
 	{
@@ -134,8 +135,8 @@ $useTop = false;
 
 	poll();
 	slowPoll();
-	//setInterval(poll, <?php echo $pollingRateOverviewMain; ?>);
-	//setInterval(slowPoll, <?php echo $pollingRateOverviewSlow; ?>);
+	setInterval(poll, <?php echo $pollingRateOverviewMain; ?>);
+	setInterval(slowPoll, <?php echo $pollingRateOverviewSlow; ?>);
 	
 	function resize()
 	{

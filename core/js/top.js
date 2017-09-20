@@ -240,6 +240,9 @@ function filterDataForMpStat(dataInner)
 {
 	dataInnerFiltered = filterData(dataInner, 11);
 	var startCount = 3;
+	var widthForCanvas = $("#cpuAreaMultiCore").width();
+	widthForCanvas = widthForCanvas*0.8;
+	var heightForCanvas = widthForCanvas/2;
 	var dataInnerNew = new Array();
 	while(stringToTimeVerify(dataInnerFiltered[startCount]))
 	{
@@ -247,12 +250,59 @@ function filterDataForMpStat(dataInner)
 		dataInnerNew.push(dataFromRow);
 		startCount++;
 	}
-	
-	for (var i = dataInnerNew.length - 1; i >= 0; i--)
-	{
-		console.log(dataInnerNew[i])
-	}
+	arrayForCpuMulti.push(dataInnerNew);
+	console.log(arrayForCpuMulti);
+	var dataInnerLength = dataInnerNew.length;
 
+	var htmlForMpStat = "<table style='width: 100%;'>";
+	
+	for(var i = 0; i < dataInnerLength; i++)
+	{
+		htmlForMpStat += "<tr><td>CPU "+i+"</td>";
+		htmlForMpStat += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"writePopupCanvas"+'"'+","+'"'+i+" Write"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-write' style='background-color: #333; border: 1px solid white;' width='"+widthForCanvas+"px' height='"+heightForCanvas+"px'></canvas></td>";
+		htmlForMpStat += "</tr>";	
+	}
+	arrayForCpuMultiLength = arrayForCpuMulti.length;
+	if(arrayForCpuMultiLength > 60)
+	{
+		arrayForCpuMulti.shift();
+	}
+	arrayForCpuMultiLength = arrayForCpuMulti.length;
+	htmlForMpStat += "</table>";
+
+
+	document.getElementById('cpuAreaMultiCore').innerHTML = htmlForMpStat;
+
+	for(var i = 0; i < dataInnerLength; i++)
+	{
+		//create array from column in array of arrays 
+		var arrayToShowInConsole = new Array();
+		var baseArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+		for (var j = 0; j < (60 - arrayForCpuMultiLength); j++) 
+		{
+			arrayToShowInConsole.push(0);
+		}
+		for (var j = 0; j < (arrayForCpuMultiLength); j++) 
+		{
+			arrayToShowInConsole.push(arrayForCpuMulti[j][i][1]);
+		}
+		var maxOfArray = 100;
+		var arrayToShowInConsoleLength = arrayToShowInConsole.length;
+		for(var j = 0; j < arrayToShowInConsoleLength; j++)
+		{
+			arrayToShowInConsole[j] = ((arrayToShowInConsole[j]/maxOfArray)*100).toFixed(1);
+		}
+		var fillThis = document.getElementById("diskIO"+i+"-write").getContext("2d");
+		fillAreaInChart(arrayToShowInConsole, baseArray, "red",fillThis, heightForCanvas, widthForCanvas,1);
+
+		var popupFillArea = document.getElementById("diskIO"+i+"writePopupCanvas");
+		if(popupFillArea)
+		{
+			var arrayOfArraysToFillWith = [arrayToShowInConsole];
+			popupFillInChart(popupFillArea, baseArray, arrayOfArraysToFillWith);
+			document.getElementById('popupGraphLowerTr').innerHTML = "<th style='background-color:blue; width:25px;'><th  style='text-align:left;'>Current: "+arrayToShowInConsole[arrayToShowInConsoleLength-1]+"% of "+maxOfArray+" kB</th></th>";
+		}
+	}
 
 }
 
