@@ -239,27 +239,27 @@ function stringToTimeVerify(data)
 function filterDataForMpStat(dataInner)
 {
 	dataInnerFiltered = filterData(dataInner, 11);
-	var startCount = 3;
+	var startCount = 2;
 	var widthForCanvas = $("#cpuAreaMultiCore").width();
-	widthForCanvas = widthForCanvas*0.8;
-	var heightForCanvas = widthForCanvas/2;
+	widthForCanvas = widthForCanvas*0.85;
+	
 	var dataInnerNew = new Array();
-	while(stringToTimeVerify(dataInnerFiltered[startCount]))
+	while(parseInt(dataInnerFiltered[startCount][1]) === (parseInt(startCount-2)))
 	{
 		var dataFromRow = [dataInnerFiltered[startCount][1], dataInnerFiltered[startCount][2], dataInnerFiltered[startCount][4], dataInnerFiltered[startCount][7]];
 		dataInnerNew.push(dataFromRow);
 		startCount++;
 	}
+	var heightForCanvas = widthForCanvas/(startCount-2);
 	arrayForCpuMulti.push(dataInnerNew);
-	console.log(arrayForCpuMulti);
 	var dataInnerLength = dataInnerNew.length;
 
 	var htmlForMpStat = "<table style='width: 100%;'>";
 	
 	for(var i = 0; i < dataInnerLength; i++)
 	{
-		htmlForMpStat += "<tr><td>CPU "+i+"</td>";
-		htmlForMpStat += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"writePopupCanvas"+'"'+","+'"'+i+" Write"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-write' style='background-color: #333; border: 1px solid white;' width='"+widthForCanvas+"px' height='"+heightForCanvas+"px'></canvas></td>";
+		htmlForMpStat += "<tr><td>CPU "+i+"</td><tr>";
+		htmlForMpStat += "<tr><td onclick='showGraphPopup("+'"'+"diskIO"+i+"writePopupCanvas"+'"'+","+'"'+i+" Write"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-write' style='background-color: #333; border: 1px solid white;' width='"+widthForCanvas+"px' height='"+heightForCanvas+"px'></canvas></td>";
 		htmlForMpStat += "</tr>";	
 	}
 	arrayForCpuMultiLength = arrayForCpuMulti.length;
@@ -293,7 +293,7 @@ function filterDataForMpStat(dataInner)
 			arrayToShowInConsole[j] = ((arrayToShowInConsole[j]/maxOfArray)*100).toFixed(1);
 		}
 		var fillThis = document.getElementById("diskIO"+i+"-write").getContext("2d");
-		fillAreaInChart(arrayToShowInConsole, baseArray, "red",fillThis, heightForCanvas, widthForCanvas,1);
+		fillAreaInChart(arrayToShowInConsole, baseArray, "blue",fillThis, heightForCanvas, widthForCanvas,1);
 
 		var popupFillArea = document.getElementById("diskIO"+i+"writePopupCanvas");
 		if(popupFillArea)
