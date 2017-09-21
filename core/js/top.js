@@ -260,7 +260,7 @@ function filterDataForMpStat(dataInner)
 	for(var i = 0; i < dataInnerLength; i++)
 	{
 		htmlForMpStat += "<tr><td>CPU "+i+"</td><tr>";
-		htmlForMpStat += "<tr><td onclick='showGraphPopup("+'"'+"diskIO"+i+"writePopupCanvas"+'"'+","+'"'+i+" Write"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-write' style='background-color: #333; border: 1px solid white;' width='"+widthForCanvas+"px' height='"+heightForCanvas+"px'></canvas></td>";
+		htmlForMpStat += "<tr><td onclick='showGraphPopup("+'"'+"mpStat"+i+"writePopupCanvas"+'"'+","+'"'+i+" CPU"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='mpStat"+i+"-write' style='background-color: #333; border: 1px solid white;' width='"+widthForCanvas+"px' height='"+heightForCanvas+"px'></canvas></td>";
 		htmlForMpStat += "</tr>";	
 	}
 	arrayForCpuMultiLength = arrayForCpuMulti.length;
@@ -302,12 +302,12 @@ function filterDataForMpStat(dataInner)
 		{
 			arrayToShowInConsole[j] = ((arrayToShowInConsole[j]/maxOfArray)*100).toFixed(1);
 		}
-		var fillThis = document.getElementById("diskIO"+i+"-write").getContext("2d");
+		var fillThis = document.getElementById("mpStat"+i+"-write").getContext("2d");
 		fillAreaInChart(arrayToShowInConsole, baseArrayForCPUMultiCore, "blue",fillThis, heightForCanvas, widthForCanvas,1);
 		fillAreaInChart(arrayToShowInConsole2, baseArrayForCPUMultiCore, "red",fillThis, heightForCanvas, widthForCanvas,1);
 		fillAreaInChart(arrayToShowInConsole3, baseArrayForCPUMultiCore, "yellow",fillThis, heightForCanvas, widthForCanvas,1);
 
-		var popupFillArea = document.getElementById("diskIO"+i+"writePopupCanvas");
+		var popupFillArea = document.getElementById("mpStat"+i+"writePopupCanvas");
 		if(popupFillArea)
 		{
 			baseArrayForCPUMultiCore = baseArray;
