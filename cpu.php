@@ -160,6 +160,9 @@ $useTop = false;
 		heightOfMainStyle += heightOfMain;
 		heightOfMainStyle += 'px';
 		document.getElementById("main").setAttribute("style",heightOfMainStyle);
+		var heightOfMainStyle = 'height:';
+		heightOfMainStyle += (heightOfMain*0.98);
+		heightOfMainStyle += 'px';
 		document.getElementById("cpuAreaMultiCore").setAttribute("style",heightOfMainStyle+"; width: 100%;");
 		document.getElementById("processIds").setAttribute("style",heightOfMainStyle+"; width: 100%;");
 	}

@@ -240,27 +240,29 @@ function stringToTimeVerify(data)
 function filterDataForMpStat(dataInner)
 {
 	dataInnerFiltered = filterData(dataInner, 11);
-	var startCount = 2;
+	var startCount = 1;
 	var widthForCanvas = $("#cpuAreaMultiCore").width();
-	widthForCanvas = widthForCanvas*0.85;
+	widthForCanvas = widthForCanvas*0.78;
 	
 	var dataInnerNew = new Array();
-	while(parseInt(dataInnerFiltered[startCount][1]) === (parseInt(startCount-2)))
+	while(parseInt(dataInnerFiltered[startCount][1]) === (parseInt(startCount-2)) || dataInnerFiltered[startCount][1] === "all")
 	{
 		var dataFromRow = [dataInnerFiltered[startCount][1], dataInnerFiltered[startCount][2], dataInnerFiltered[startCount][4], dataInnerFiltered[startCount][7]];
 		dataInnerNew.push(dataFromRow);
 		startCount++;
 	}
-	var heightForCanvas = widthForCanvas/(startCount-2);
+	var heightForCanvas = widthForCanvas/(startCount-1);
 	arrayForCpuMulti.push(dataInnerNew);
 	var dataInnerLength = dataInnerNew.length;
 
 	var htmlForMpStat = "<table style='width: 100%;'>";
-	
+	htmlForMpStat += "<tr style='background-color:rgba(0,0,0,.2);' ><th><table style='width: 100%;'>";
+	htmlForMpStat += "<th style='background-color:blue; width:25px;'></th><th  style='text-align:left;'>User</th><th style='background-color:red; width:25px;'></th><th  style='text-align:left;'>System</th><th style='background-color:yellow; width:25px;'></th><th  style='text-align:left;'>User</th>";
+	htmlForMpStat += "</table></tr></th>";
 	for(var i = 0; i < dataInnerLength; i++)
 	{
-		htmlForMpStat += "<tr><td>CPU "+i+"</td><tr>";
-		htmlForMpStat += "<tr><td onclick='showGraphPopup("+'"'+"mpStat"+i+"writePopupCanvas"+'"'+","+'"'+i+" CPU"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='mpStat"+i+"-write' style='background-color: #333; border: 1px solid white;' width='"+widthForCanvas+"px' height='"+heightForCanvas+"px'></canvas></td>";
+		htmlForMpStat += "<tr  style='background-color:rgba(0,0,0,.2);' ><td>CPU "+dataInnerNew[i][0]+"</td><tr>";
+		htmlForMpStat += "<tr><td onclick='showGraphPopup("+'"'+"mpStat"+i+"writePopupCanvas"+'"'+","+'"'+dataInnerNew[i][0]+" CPU"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='mpStat"+i+"-write' style='background-color: #333; border: 1px solid white;' width='"+widthForCanvas+"px' height='"+heightForCanvas+"px'></canvas></td>";
 		htmlForMpStat += "</tr>";	
 	}
 	arrayForCpuMultiLength = arrayForCpuMulti.length;
