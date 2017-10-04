@@ -39,31 +39,6 @@ require_once('../core/php/updateCheck.php');
 			</ul>
 		</div>
 	</form>
-	<form id="loggingDisplay" action="../core/php/settingsSave.php" method="post">
-		<div class="settingsHeader">
-			Logging Information  <button onclick="displayLoadingPopup();" >Save Changes</button>
-		</div>
-		<div class="settingsDiv" >
-			<ul id="settingsUl">
-				<li>
-					File Info Logging
-						<select name="enableLogging">
-  						<option <?php if($enableLogging == 'true'){echo "selected";} ?> value="true">True</option>
-  						<option <?php if($enableLogging == 'false'){echo "selected";} ?> value="false">False</option>
-						</select>
-					<br>
-					<span style="font-size: 75%;">*<i>This will increase poll times by 2x to 4x</i></span>
-				</li>
-				<li>
-					Poll Time Logging
-						<select name="enablePollTimeLogging">
-  						<option <?php if($enablePollTimeLogging == 'true'){echo "selected";} ?> value="true">True</option>
-  						<option <?php if($enablePollTimeLogging == 'false'){echo "selected";} ?> value="false">False</option>
-						</select>
-				</li>
-			</ul>
-		</div>
-	</form>
 	</div>
 	<?php readfile('../core/html/popup.html') ?>	
 </body>

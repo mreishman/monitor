@@ -5,14 +5,9 @@ function clean_url($url) {
     return $parts['path'];
 }
 
-require_once('statusTest.php');
 $baseRedirect = "";
 $baseRedirectTwo = "";
-if($monitorStatus['withLogHog'] == 'true')
-{
-	$baseRedirect = "../";
-	$baseRedirectTwo = "../";
-}
+
 $baseUrl = $baseRedirect."core/";
 if(file_exists($baseRedirect.'local/layout.php'))
 {
@@ -21,7 +16,7 @@ if(file_exists($baseRedirect.'local/layout.php'))
 	require_once($baseRedirect.'local/layout.php');
 	$baseUrl .= $currentSelectedTheme."/";
 }
-if(!file_exists($baseUrl.'conf/config.php') && $monitorStatus['withLogHog'] != 'true')
+if(!file_exists($baseUrl.'conf/config.php'))
 {
 	$partOfUrl = clean_url($_SERVER['REQUEST_URI']);
 	$url = "http://" . $_SERVER['HTTP_HOST'] .$partOfUrl ."setup/welcome.php";
@@ -54,13 +49,6 @@ $useTop = false;
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
 	<link rel="icon" type="image/png" href="<?php echo $baseRedirectTwo; ?>core/img/favicon.png" />
 	<script src="<?php echo $baseRedirect; ?>core/js/jquery.js"></script>
-	<?php if($monitorStatus['withLogHog'] == 'true'): ?>
-		<style type="text/css">
-		#menu a, .link, .linkSmall, .context-menu, .dropdown-content{
-			background-color: <?php echo $currentSelectedThemeColorValues[0]?>;
-		}
-		</style>
-	<?php endif; ?>
 </head>
 <body>
 
@@ -123,9 +111,6 @@ $useTop = false;
 	</div>
 	<script type="text/javascript">
 		var baseRedirect = "";
-		<?php if($monitorStatus['withLogHog'] == 'true'): ?>
-			baseRedirect = "../";
-		<?php endif; ?>
 	</script>
 	<?php readfile($baseRedirect.'core/html/popup.html') ?>	
 	<script src="<?php echo $baseRedirect; ?>core/js/top.js"></script>
