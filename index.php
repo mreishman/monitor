@@ -86,18 +86,7 @@ $useTop = false;
 				<div id="DIOCanvas" style="height: 200px; width: 200px; display: none;" class="canvasMonitor" ></div>
 				<div class="canvasMonitorText canvasMonitorTextBottom"><span style="color: white;">n/a</span></div>
 			</div>
-			<div onclick="showGraphPopup('phpUTUPopupCanvas','PHP User Time Used','onePage')" style="cursor: pointer;"  class="canvasMonitorDiv" >	
-				<div class="canvasMonitorText canvasMonitorTextTop">PHP User Time Used</div>
-				<img id="canvasMonitorLoading_PHP_UTU" class="loadingSpinner" src='<?php echo $baseRedirectTwo; ?>core/img/loading.gif' height='50' width='50'> 
-				<canvas style="display: none;" class="canvasMonitor" id="PHPUTUCanvas" width="200" height="200"></canvas>
-				<div class="canvasMonitorText canvasMonitorTextBottom"><span id="canvasMonitorPHPUTUText" >-</span></div>
-			</div>
-			<div onclick="showGraphPopup('phpSTUPopupCanvas','PHP System Time Used','onePage')" style="cursor: pointer;"  class="canvasMonitorDiv" >	
-				<div class="canvasMonitorText canvasMonitorTextTop">PHP System Time Used</div>
-				<img id="canvasMonitorLoading_PHP_STU" class="loadingSpinner" src='<?php echo $baseRedirectTwo; ?>core/img/loading.gif' height='50' width='50'> 
-				<canvas style="display: none;" class="canvasMonitor" id="PHPSTUCanvas" width="200" height="200"></canvas>
-				<div class="canvasMonitorText canvasMonitorTextBottom"><span id="canvasMonitorPHPSTUText" >-</span></div>
-			</div>
+			
 
 		</div>
 		<div id="bottomBarOverview">
@@ -171,9 +160,6 @@ $useTop = false;
 
 	var swapArea = document.getElementById('swapCanvas');
 	var swapAreaContext = swapArea.getContext("2d");
-
-	var phpUserTimeArea = document.getElementById("PHPUTUCanvas");
-	var phpUserTimeAreaContext = phpUserTimeArea.getContext("2d");
 
 	var numberOfCores = 0;
 
@@ -322,7 +308,7 @@ $useTop = false;
 		{
 			ioStatDxFunction();
 		}
-		getRUsageFunction();
+		//getRUsageFunction();
 	}
 
 	function slowPoll()

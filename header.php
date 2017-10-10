@@ -48,6 +48,8 @@ $URI = $_SERVER['REQUEST_URI'];
 		<a class="noHover" style="cursor: default;" >|</a>
 	<?php if(file_exists('../status/index.php')): ?>
 		<a id="mainLink"  onclick="window.location.href =  '../status/';" >gitStatus</a>
+	<?php elseif(file_exists('../../status/index.php')): ?>
+		<a id="mainLink"  onclick="window.location.href =  '../../status/';" >gitStatus</a>
 	<?php endif;?>
 	<?php if(file_exists('../Log-Hog/index.php')): ?>
 		<a id="mainLink"  onclick="window.location.href =  '../Log-Hog/';" >Log-Hog</a>
