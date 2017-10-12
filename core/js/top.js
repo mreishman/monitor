@@ -568,8 +568,7 @@ function filterDataForioStatDx(dataInner)
 
 function filterDataForNetworkDev(dataInner)
 {
-	dataInner = dataInner.substring(dataInner.indexOf("carrier compressed")+19);
-	dataInner = filterData(dataInner, 16);
+
 	networkArrayOfArrays.push(dataInner);
 	if(networkArrayOfArrays.length > 21)
 	{
