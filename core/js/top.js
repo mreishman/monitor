@@ -601,7 +601,7 @@ function filterDataForNetworkDev(dataInner)
 	{
 		htmlForNetwork += "<tr><td>"+networkArrayOfArrays[count][i][0]+"</td>"
 		htmlForNetwork += "<td>";
-		if(!(networkArrayOfArrays.length > 1))
+		if(!(networkArrayOfArraysDifference.length > 1))
 		{
 			htmlForNetwork += "<img style='margin-top: 25px; margin-left: 75px; position: absolute;' src='"+baseRedirect+"core/img/loading.gif' height='50' width='50'>";
 		}
@@ -611,7 +611,7 @@ function filterDataForNetworkDev(dataInner)
 		}
 		htmlForNetwork += "<canvas onclick='showGraphPopup("+'"'+"networkGraphPopup"+networkArrayOfArrays[count][i][0]+"receive"+'"'+","+'"'+networkArrayOfArrays[count][i][0]+" Receive"+'"'+","+'"'+"onePage"+'"'+")' id='"+networkArrayOfArrays[count][i][0]+"-downloadCanvas' style='background-color:#333; border: 1px solid white; cursor: pointer;' width='200' height='100' ></canvas><div class='TableInfoForNet'>Bytes: "+networkArrayOfArrays[count][i][1]+"</div></td>"
 		htmlForNetwork += "<td>";
-		if(!(networkArrayOfArrays.length > 1))
+		if(!(networkArrayOfArraysDifference.length > 1))
 		{
 			htmlForNetwork += "<img style='margin-top: 25px; margin-left: 75px; position: absolute;' src='"+baseRedirect+"core/img/loading.gif' height='50' width='50'>";
 		}
@@ -623,7 +623,7 @@ function filterDataForNetworkDev(dataInner)
 	}
 	htmlForNetwork += "</table>";
 	document.getElementById('networkArea').innerHTML = htmlForNetwork;
-	if(networkArrayOfArrays.length > 1)
+	if(networkArrayOfArraysDifference.length > 1)
 	{
 		for (var i = 0; i < networkArrayOfArraysLength; i++)
 		{
