@@ -568,10 +568,11 @@ function filterDataForioStatDx(dataInner)
 
 function filterDataForNetworkDev(dataInner)
 {
-
-	networkArrayOfArrays.push(dataInner);
-	if(networkArrayOfArrays.length > 21)
+	networkArrayOfArrays.push(dataInner[0]);
+	networkArrayOfArrays.push(dataInner[1]);
+	if(networkArrayOfArrays.length > 22)
 	{
+		networkArrayOfArrays.shift();
 		networkArrayOfArrays.shift();
 	}
 	if(networkArrayOfArrays.length > 1)
@@ -595,8 +596,8 @@ function filterDataForNetworkDev(dataInner)
 	}
 	var htmlForNetwork = "<table style='width: 100%;'>";
 	htmlForNetwork += "<tr><th style='width:50px;'>Interface</th><th>Receive</th><th>Transmit</th></tr>";
-	var networkArrayOfArraysLength = networkArrayOfArrays[0].length;
-	var count = networkArrayOfArrays.length -1;
+	var networkArrayOfArraysLength = networkArrayOfArraysDifference[0].length;
+	var count = networkArrayOfArraysDifference.length;
 	for (var i = 0; i < networkArrayOfArraysLength; i++)
 	{
 		htmlForNetwork += "<tr><td>"+networkArrayOfArrays[count][i][0]+"</td>"

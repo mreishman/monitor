@@ -10,12 +10,11 @@ function filterProcNetDev($data)
 	return $data;
 }
 
-$first = json_encode(filterData(filterProcNetDev(shell_exec(" cat /proc/net/dev")),16));
+$first = (filterData(filterProcNetDev(shell_exec(" cat /proc/net/dev")),16));
 
 sleep(1);
 
-$second = json_encode(filterData(filterProcNetDev(shell_exec(" cat /proc/net/dev")),16));
+$second = (filterData(filterProcNetDev(shell_exec(" cat /proc/net/dev")),16));
 
-echo $second;
-
+echo json_encode(array($first, $second));
 ?>
