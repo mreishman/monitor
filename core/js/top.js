@@ -705,8 +705,8 @@ function filterDataForProcessesPreSort(dataInner)
 
 function filterDataFromProcStat(dataInner)
 {
-	dataInner = filterData(dataInner, 10);
-	processInfoArray.push([dataInner[0][1],dataInner[0][3],dataInner[0][4],dataInner[0][5]]);
+	processInfoArray.push([dataInner[0][0][1],dataInner[0][0][3],dataInner[0][0][4],dataInner[0][0][5]]);
+	processInfoArray.push([dataInner[1][0][1],dataInner[1][0][3],dataInner[1][0][4],dataInner[1][0][5]]);
 	if(processInfoArray.length > 1)
 	{
 		var processOneDiff = [processInfoArray[1][0]]-processInfoArray[0][0];
@@ -718,6 +718,7 @@ function filterDataFromProcStat(dataInner)
 		{
 			processInfoArrayDiff.shift();
 		}
+		processInfoArray.shift();
 		processInfoArray.shift();
 		var currentLengthOfArray = processInfoArrayDiff.length;
 		var user = processInfoArrayDiff[currentLengthOfArray-1][0];
