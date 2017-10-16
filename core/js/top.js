@@ -455,11 +455,8 @@ function filterDataForFreeSwap(dataInner)
 
 function filterDataForioStatDx(dataInner)
 {
-	
-	dataInner = dataInner.substring(dataInner.indexOf("kB_wrtn")+8);
-	dataInner = dataInner.substring(dataInner.indexOf("kB_wrtn")+8);
-	dataInner = filterData(dataInner, 5);
-	var dataInnerLength = dataInner.length;
+	var dataInnerLength = dataInner[0].length;
+	var dataInnerLength2 = dataInner[1].length;
 	var htmlForDiskIO = "<table style='width: 100%;'>";
 	htmlForDiskIO += "<tr><th>Disk</th><th>Read</th><th>Write</th></tr>"
 	var height = 38;
@@ -469,10 +466,13 @@ function filterDataForioStatDx(dataInner)
 	}	
 	while(dataInnerLength > 6)
 	{
-		dataInner.pop();
-		dataInnerLength = dataInner.length;
+		dataInner[0].pop();
+		dataInnerLength = dataInner[0].length;
+		dataInner[1].pop();
+		dataInnerLength = dataInner[1].length;
 	}
-	ioDiff.push(dataInner);
+	ioDiff.push(dataInner[0]);
+	ioDiff.push(dataInner[1]);
 	var ioDiffLength = ioDiff.length;
 	if(ioDiffLength > 1)
 	{
@@ -480,9 +480,9 @@ function filterDataForioStatDx(dataInner)
 		for(var i = 0; i < dataInnerLength; i++)
 		{
 			var arrayToPush = [];
-			htmlForDiskIO += "<tr><td>"+dataInner[i][0]+"</td>";	
-			htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"readPopupCanvas"+'"'+","+'"'+dataInner[i][0]+" Read"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-read' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"px'></canvas></td>";
-			htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"writePopupCanvas"+'"'+","+'"'+dataInner[i][0]+" Write"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-write' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"'></canvas></td>";
+			htmlForDiskIO += "<tr><td>"+dataInner[0][i][0]+"</td>";	
+			htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"readPopupCanvas"+'"'+","+'"'+dataInner[0][i][0]+" Read"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-read' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"px'></canvas></td>";
+			htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"writePopupCanvas"+'"'+","+'"'+dataInner[0][i][0]+" Write"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-write' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"'></canvas></td>";
 			htmlForDiskIO += "</tr>";	
 			if(ioDiffLength > 1)
 			{

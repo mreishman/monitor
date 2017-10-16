@@ -46,11 +46,19 @@ $URI = $_SERVER['REQUEST_URI'];
 	<?php endif; ?>
 	-->
 		<a class="noHover" style="cursor: default;" >|</a>
+	<!-- Status -->
 	<?php if(file_exists('../status/index.php')): ?>
 		<a id="mainLink"  onclick="window.location.href =  '../status/';" >gitStatus</a>
 	<?php elseif(file_exists('../../status/index.php')): ?>
 		<a id="mainLink"  onclick="window.location.href =  '../../status/';" >gitStatus</a>
 	<?php endif;?>
+	<!-- Search -->
+	<?php if(file_exists('../search/index.php')): ?>
+		<a id="mainLink"  onclick="window.location.href =  '../search/';" >Search</a>
+	<?php elseif(file_exists('../../search/index.php')): ?>
+		<a id="mainLink"  onclick="window.location.href =  '../../search/';" >Search</a>
+	<?php endif;?>
+	<!-- Log-Hog -->
 	<?php if(file_exists('../Log-Hog/index.php')): ?>
 		<a id="mainLink"  onclick="window.location.href =  '../Log-Hog/';" >Log-Hog</a>
 	<?php elseif(file_exists('../../Log-Hog/index.php')):?>
