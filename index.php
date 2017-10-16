@@ -32,11 +32,11 @@ require_once($baseRedirect.'core/php/configStatic.php');
 
 require_once($baseRedirect.'core/php/loadVars.php');
 
-if($pollingRateOverviewMainType == 'Seconds')
+if($pollingRateOverviewMainType === 'Seconds')
 {
 	$pollingRateOverviewMain *= 1000;
 }
-if($pollingRateOverviewSlowType == 'Seconds')
+if($pollingRateOverviewSlowType === 'Seconds')
 {
 	$pollingRateOverviewSlow *= 1000;
 }
@@ -316,11 +316,6 @@ $useTop = false;
 		dfALFunction();
 		psAuxFunction();
 	}
-
-	poll();
-	slowPoll();
-	setInterval(poll, <?php echo $pollingRateOverviewMain; ?>);
-	setInterval(slowPoll, <?php echo $pollingRateOverviewSlow; ?>);
 	
 	function resize()
 	{
@@ -353,6 +348,10 @@ $useTop = false;
 		resize();
 		window.onresize = resize;
 
+		poll();
+		slowPoll();
+		setInterval(poll, <?php echo $pollingRateOverviewMain; ?>);
+		setInterval(slowPoll, <?php echo $pollingRateOverviewSlow; ?>);
 	});
 
 	</script>
