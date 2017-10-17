@@ -16,15 +16,6 @@ require_once('../core/conf/config.php');
 require_once('../core/php/configStatic.php');
 require_once('../core/php/loadVars.php');
 require_once('../core/php/updateCheck.php');
-$seperateFromLogHog = true;
-if(file_exists('../top/statusTest.php'))
-{
-	require_once('../top/statusTest.php');
-	if($monitorStatus['withLogHog'] == 'true')
-	{
-		$seperateFromLogHog = false;
-	}
-}
 if(file_exists($baseUrl.'conf/topConfig.php'))
 {
 	require_once($baseUrl.'conf/topConfig.php'); 
@@ -42,12 +33,8 @@ require_once('../core/php/loadVarsTop.php');
 <body>
 
 <?php require_once('header.php');?>	
-	<?php if($seperateFromLogHog): ?>
 	<div id="main">	
 		<?php require_once('../core/php/settingsTopMain.php'); ?>
-	<?php else:?>
-	<div id="main">	
-	<?php endif;?>
 		<?php require_once('../core/php/settingsTop.php'); ?>
 	</div>
 	<?php readfile('../core/html/popup.html') ?>	

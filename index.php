@@ -5,14 +5,9 @@ function clean_url($url) {
     return $parts['path'];
 }
 
-require_once('statusTest.php');
 $baseRedirect = "";
 $baseRedirectTwo = "";
-if($monitorStatus['withLogHog'] == 'true')
-{
-	$baseRedirect = "../";
-	$baseRedirectTwo = "../";
-}
+
 $baseUrl = $baseRedirect."core/";
 if(file_exists($baseRedirect.'local/layout.php'))
 {
@@ -21,7 +16,7 @@ if(file_exists($baseRedirect.'local/layout.php'))
 	require_once($baseRedirect.'local/layout.php');
 	$baseUrl .= $currentSelectedTheme."/";
 }
-if(!file_exists($baseUrl.'conf/config.php') && $monitorStatus['withLogHog'] != 'true')
+if(!file_exists($baseUrl.'conf/config.php'))
 {
 	$partOfUrl = clean_url($_SERVER['REQUEST_URI']);
 	$url = "http://" . $_SERVER['HTTP_HOST'] .$partOfUrl ."setup/welcome.php";
@@ -37,11 +32,11 @@ require_once($baseRedirect.'core/php/configStatic.php');
 
 require_once($baseRedirect.'core/php/loadVars.php');
 
-if($pollingRateOverviewMainType == 'Seconds')
+if($pollingRateOverviewMainType === 'Seconds')
 {
 	$pollingRateOverviewMain *= 1000;
 }
-if($pollingRateOverviewSlowType == 'Seconds')
+if($pollingRateOverviewSlowType === 'Seconds')
 {
 	$pollingRateOverviewSlow *= 1000;
 }
@@ -54,13 +49,6 @@ $useTop = false;
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
 	<link rel="icon" type="image/png" href="<?php echo $baseRedirectTwo; ?>core/img/favicon.png" />
 	<script src="<?php echo $baseRedirect; ?>core/js/jquery.js"></script>
-	<?php if($monitorStatus['withLogHog'] == 'true'): ?>
-		<style type="text/css">
-		#menu a, .link, .linkSmall, .context-menu, .dropdown-content{
-			background-color: <?php echo $currentSelectedThemeColorValues[0]?>;
-		}
-		</style>
-	<?php endif; ?>
 </head>
 <body>
 
@@ -98,18 +86,7 @@ $useTop = false;
 				<div id="DIOCanvas" style="height: 200px; width: 200px; display: none;" class="canvasMonitor" ></div>
 				<div class="canvasMonitorText canvasMonitorTextBottom"><span style="color: white;">n/a</span></div>
 			</div>
-			<div onclick="showGraphPopup('phpUTUPopupCanvas','PHP User Time Used','onePage')" style="cursor: pointer;"  class="canvasMonitorDiv" >	
-				<div class="canvasMonitorText canvasMonitorTextTop">PHP User Time Used</div>
-				<img id="canvasMonitorLoading_PHP_UTU" class="loadingSpinner" src='<?php echo $baseRedirectTwo; ?>core/img/loading.gif' height='50' width='50'> 
-				<canvas style="display: none;" class="canvasMonitor" id="PHPUTUCanvas" width="200" height="200"></canvas>
-				<div class="canvasMonitorText canvasMonitorTextBottom"><span id="canvasMonitorPHPUTUText" >-</span></div>
-			</div>
-			<div onclick="showGraphPopup('phpSTUPopupCanvas','PHP System Time Used','onePage')" style="cursor: pointer;"  class="canvasMonitorDiv" >	
-				<div class="canvasMonitorText canvasMonitorTextTop">PHP System Time Used</div>
-				<img id="canvasMonitorLoading_PHP_STU" class="loadingSpinner" src='<?php echo $baseRedirectTwo; ?>core/img/loading.gif' height='50' width='50'> 
-				<canvas style="display: none;" class="canvasMonitor" id="PHPSTUCanvas" width="200" height="200"></canvas>
-				<div class="canvasMonitorText canvasMonitorTextBottom"><span id="canvasMonitorPHPSTUText" >-</span></div>
-			</div>
+			
 
 		</div>
 		<div id="bottomBarOverview">
@@ -123,9 +100,6 @@ $useTop = false;
 	</div>
 	<script type="text/javascript">
 		var baseRedirect = "";
-		<?php if($monitorStatus['withLogHog'] == 'true'): ?>
-			baseRedirect = "../";
-		<?php endif; ?>
 	</script>
 	<?php readfile($baseRedirect.'core/html/popup.html') ?>	
 	<script src="<?php echo $baseRedirect; ?>core/js/top.js"></script>
@@ -158,7 +132,7 @@ $useTop = false;
 	var phpSystemTimeDiff = [];
 	var phpUserTimeHistory = [];
 	var phpSystemTimeHistory = [];
-	var processFilterByRow = 2;
+	var processFilterByRow = <?php echo $defaultProcessorSort;?>;
 	var selectedUser = "USER";
 	var baseForSystemTime = 0;
 	var heightForPopup = 0;
@@ -186,9 +160,6 @@ $useTop = false;
 
 	var swapArea = document.getElementById('swapCanvas');
 	var swapAreaContext = swapArea.getContext("2d");
-
-	var phpUserTimeArea = document.getElementById("PHPUTUCanvas");
-	var phpUserTimeAreaContext = phpUserTimeArea.getContext("2d");
 
 	var numberOfCores = 0;
 
@@ -337,7 +308,7 @@ $useTop = false;
 		{
 			ioStatDxFunction();
 		}
-		getRUsageFunction();
+		//getRUsageFunction();
 	}
 
 	function slowPoll()
@@ -345,33 +316,43 @@ $useTop = false;
 		dfALFunction();
 		psAuxFunction();
 	}
-
-	poll();
-	slowPoll();
-	setInterval(poll, <?php echo $pollingRateOverviewMain; ?>);
-	setInterval(slowPoll, <?php echo $pollingRateOverviewSlow; ?>);
 	
-	var offsetHeight = 0;
-	var offsetHeight2 = 0;
-	if(document.getElementById('menu'))
+	function resize()
 	{
-		offsetHeight = document.getElementById('menu').offsetHeight;
+		var offsetHeight = 0;
+		var offsetHeight2 = 0;
+		if(document.getElementById('menu'))
+		{
+			offsetHeight = document.getElementById('menu').offsetHeight;
+		}
+		if(document.getElementById('topBarOverview'))
+		{
+			offsetHeight2 = document.getElementById('topBarOverview').offsetHeight;
+			offsetHeight2 = offsetHeight2;
+		}
+		var heightOfMain = window.innerHeight - offsetHeight;
+		var heightOfMainStyle = 'height:';
+		heightOfMainStyle += heightOfMain;
+		heightOfMainStyle += 'px';
+		document.getElementById("main").setAttribute("style",heightOfMainStyle);
+		heightOfMain = window.innerHeight - offsetHeight - offsetHeight2;
+		heightOfMainStyle = 'height:';
+		heightOfMainStyle += heightOfMain;
+		heightOfMainStyle += 'px';
+		document.getElementById("processIds").setAttribute("style",heightOfMainStyle);
+		document.getElementById("networkArea").setAttribute("style",heightOfMainStyle);
 	}
-	if(document.getElementById('topBarOverview'))
+
+	$(document).ready(function()
 	{
-		offsetHeight2 = document.getElementById('topBarOverview').offsetHeight;
-		offsetHeight2 = offsetHeight2;
-	}
-	var heightOfMain = window.innerHeight - offsetHeight;
-	var heightOfMainStyle = 'height:';
-	heightOfMainStyle += heightOfMain;
-	heightOfMainStyle += 'px';
-	document.getElementById("main").setAttribute("style",heightOfMainStyle);
-	heightOfMain = window.innerHeight - offsetHeight - offsetHeight2;
-	heightOfMainStyle = 'height:';
-	heightOfMainStyle += heightOfMain;
-	heightOfMainStyle += 'px';
-	document.getElementById("processIds").setAttribute("style",heightOfMainStyle);
-	document.getElementById("networkArea").setAttribute("style",heightOfMainStyle);
+		resize();
+		window.onresize = resize;
+
+		poll();
+		slowPoll();
+		setInterval(poll, <?php echo $pollingRateOverviewMain; ?>);
+		setInterval(slowPoll, <?php echo $pollingRateOverviewSlow; ?>);
+	});
+
 	</script>
 </body>
