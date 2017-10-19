@@ -147,24 +147,27 @@ function rrmdir($dir)
 {
 	if (is_dir($dir))
 	{
-		$objects = scandir($dir);
-		foreach ($objects as $object)
+		actuallyRemoveDir($dir);
+	}
+}
+
+function actuallyRemoveDir($dir)
+{
+	$objects = scandir($dir);
+	$objects = array_diff($objects, array(".",".."));
+	foreach ($objects as $object)
+	{
+		if (filetype($dir."/".$object) == "dir")
 		{
-			if ($object != "." && $object != "..") 
-			{
-				if (filetype($dir."/".$object) == "dir")
-				{
-					rrmdir($dir."/".$object);
-				}
-				else
-				{
-					unlink($dir."/".$object);
-				}
-			}
+			rrmdir($dir."/".$object);
 		}
+		else
+		{
+			unlink($dir."/".$object);
+		}
+	}
     reset($objects);
     rmdir($dir);
-	}
 }
 
 function unzipFile($locationExtractTo = '../../update/downloads/updateFiles/extracted/', $locationExtractFrom = '../../update/downloads/updateFiles/updateFiles.zip')
