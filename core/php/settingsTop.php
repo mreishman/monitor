@@ -25,10 +25,11 @@
 					$count = 1;
 					$sortProcOpt = array("User","PID","%CPU","%MEM","VSZ","RSS","TTY","STAT","START","TIME","Command");
 					foreach ($sortProcOpt as $key): ?>
-					<option <?php if($defaultProcessorSort === $count){echo "selected";} ?> value=<?php echo $count;?> ><?php echo $key;?> ASC</option>
-					<option <?php if($defaultProcessorSort === -$count){echo "selected";} ?> value=-<?php echo $count;?> ><?php echo $key;?> DESC</option>
+					<option <?php if(intval($defaultProcessorSort) === intval($count)){echo "selected";} ?> value=<?php echo $count;?> ><?php echo $key;?> ASC</option>
+					<option <?php if(intval($defaultProcessorSort) === intval(-$count)){echo "selected";} ?> value=-<?php echo $count;?> ><?php echo $key;?> DESC</option>
+					<?php 
 					$count++;
-					<?php endforeach; ?>
+					endforeach; ?>
 					?>
 				</select>
 			</li>

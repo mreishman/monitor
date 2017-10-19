@@ -758,7 +758,7 @@ function filterDataForProcesses(dataInnerNewArrayOfArrays)
 	//0-11 is a row
 	htmlForProcesses += "<tr class'headerProcess'>";
 		//USER
-		htmlForProcesses += "<th><select id='processUserSelect' onchange='filterProcessByUser();' >";
+		htmlForProcesses += "<th style='width: 110px;'><select id='processUserSelect' onchange='filterProcessByUser();' >";
 			var arrayOfUserProcessesLength = arrayOfUserProcesses.length;
 			for (var i = 0; i < arrayOfUserProcessesLength; i++)
 			{
@@ -769,7 +769,24 @@ function filterDataForProcesses(dataInnerNewArrayOfArrays)
 				}
 				htmlForProcesses += " value='"+arrayOfUserProcesses[i]+"'> "+arrayOfUserProcesses[i]+" </option>";
 			} 
-		htmlForProcesses += "</th></select>";
+		htmlForProcesses += "</select>";
+		if(processFilterByRow == 1)
+		{
+			htmlForProcesses += "<div style='width: 20px; height: 20px; display: inline-block;' onclick='filterProcessDataBy(1,-1)'>";
+		}
+		else
+		{
+			htmlForProcesses += "<div style='width: 20px; height: 20px; display: inline-block;' onclick='filterProcessDataBy(1,1)'>";
+		}
+		if(processFilterByRow == 1)
+		{
+			htmlForProcesses += "&uarr;";
+		}
+		else if(processFilterByRow == -1)
+		{
+			htmlForProcesses += "&darr;";
+		}
+		htmlForProcesses += "</div></th>";
 		//PID 
 		if(processFilterByRow == 2)
 		{
