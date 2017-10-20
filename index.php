@@ -29,7 +29,7 @@ require_once($baseUrl.'conf/topConfig.php');
 require_once($baseRedirect.'core/conf/configTop.php');
 require_once($baseRedirect.'core/php/loadVarsTop.php');
 require_once($baseRedirect.'core/php/configStatic.php');
-
+require_once($baseRedirect.'core/php/commonFunctions.php');
 require_once($baseRedirect.'core/php/loadVars.php');
 
 if($pollingRateOverviewMainType === 'Seconds')
@@ -40,6 +40,8 @@ if($pollingRateOverviewSlowType === 'Seconds')
 {
 	$pollingRateOverviewSlow *= 1000;
 }
+
+$daysSince = calcuateDaysSince($configStatic['lastCheck']);
 
 $useTop = false;
 ?>
