@@ -104,6 +104,14 @@ $useTop = false;
 	<?php readfile($baseRedirect.'core/html/popup.html') ?>	
 	<script src="<?php echo $baseRedirect; ?>core/js/top.js"></script>
 	<script type="text/javascript">
+		<?php
+		echo "var autoCheckUpdate = ".$autoCheckUpdate.";";
+		echo "var dateOfLastUpdate = '".$configStatic['lastCheck']."';";
+		echo "var daysSinceLastCheck = '".$daysSince."';";
+		echo "var daysSetToUpdate = '".$autoCheckDaysUpdate."';";
+		?>
+	var dontNotifyVersion = "<?php echo $dontNotifyVersion;?>";
+	var currentVersion = "<?php echo $configStatic['version'];?>";
 	var numberOfColumns = 40;
 	var defaultArray = new Array();
 	for (var i = 0; i < numberOfColumns; i++) 
@@ -352,6 +360,8 @@ $useTop = false;
 		slowPoll();
 		setInterval(poll, <?php echo $pollingRateOverviewMain; ?>);
 		setInterval(slowPoll, <?php echo $pollingRateOverviewSlow; ?>);
+
+		checkForUpdateMaybe();
 	});
 
 	</script>
