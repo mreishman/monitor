@@ -1,5 +1,4 @@
 var dropdownMenuVisible = false;
-var baseArrayForCPUMultiCore = new Array();
 
 function killProcess(processNumber)
 {
@@ -218,109 +217,6 @@ function filterData(dataInner, maxRowNum)
 
 }
 
-function stringToTimeVerify(data)
-{
-	var pieces = (data+"").split(':')
-    var hour, minute, second;
-
-	if(pieces.length === 3) 
-	{
-	    hour = parseInt(pieces[0], 10);
-	    minute = parseInt(pieces[1], 10);
-	    second = parseInt(pieces[2], 10);
-	}
-
-	if(isInt(hour) && isInt(minute) && isInt(second))
-	{
-		return true;
-	}
-	return false;
-}
-
-function filterDataForMpStat(dataInner)
-{
-	dataInnerFiltered = filterData(dataInner, 11);
-	var startCount = 1;
-	var widthForCanvas = $("#cpuAreaMultiCore").width();
-	widthForCanvas = widthForCanvas*0.78;
-	
-	var dataInnerNew = new Array();
-	while(parseInt(dataInnerFiltered[startCount][1]) === (parseInt(startCount-2)) || dataInnerFiltered[startCount][1] === "all")
-	{
-		var dataFromRow = [dataInnerFiltered[startCount][1], dataInnerFiltered[startCount][2], dataInnerFiltered[startCount][4], dataInnerFiltered[startCount][7]];
-		dataInnerNew.push(dataFromRow);
-		startCount++;
-	}
-	var heightForCanvas = widthForCanvas/(startCount-1);
-	arrayForCpuMulti.push(dataInnerNew);
-	var dataInnerLength = dataInnerNew.length;
-
-	var htmlForMpStat = "<table style='width: 100%;'>";
-	htmlForMpStat += "<tr style='background-color:rgba(0,0,0,.2);' ><th><table style='width: 100%;'>";
-	htmlForMpStat += "<th style='background-color:blue; width:25px;'></th><th  style='text-align:left;'>User</th><th style='background-color:red; width:25px;'></th><th  style='text-align:left;'>System</th><th style='background-color:yellow; width:25px;'></th><th  style='text-align:left;'>Other</th>";
-	htmlForMpStat += "</table></tr></th>";
-	for(var i = 0; i < dataInnerLength; i++)
-	{
-		htmlForMpStat += "<tr  style='background-color:rgba(0,0,0,.2);' ><td>CPU "+dataInnerNew[i][0]+"</td><tr>";
-		htmlForMpStat += "<tr><td onclick='showGraphPopup("+'"'+"mpStat"+i+"writePopupCanvas"+'"'+","+'"'+dataInnerNew[i][0]+" CPU"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='mpStat"+i+"-write' style='background-color: #333; border: 1px solid white;' width='"+widthForCanvas+"px' height='"+heightForCanvas+"px'></canvas></td>";
-		htmlForMpStat += "</tr>";	
-	}
-	arrayForCpuMultiLength = arrayForCpuMulti.length;
-	if(arrayForCpuMultiLength > 60)
-	{
-		arrayForCpuMulti.shift();
-	}
-	arrayForCpuMultiLength = arrayForCpuMulti.length;
-	htmlForMpStat += "</table>";
-
-
-	document.getElementById('cpuAreaMultiCore').innerHTML = htmlForMpStat;
-
-	for(var i = 0; i < dataInnerLength; i++)
-	{
-		//create array from column in array of arrays 
-		var arrayToShowInConsole = new Array();
-		var arrayToShowInConsole2 = new Array();
-		var arrayToShowInConsole3 = new Array();
-
-		var baseArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-		baseArrayForCPUMultiCore = baseArray;
-		for (var j = 0; j < (60 - arrayForCpuMultiLength); j++) 
-		{
-			arrayToShowInConsole.push(0);
-			arrayToShowInConsole2.push(0);
-			arrayToShowInConsole3.push(0);
-		}
-		for (var j = 0; j < (arrayForCpuMultiLength); j++) 
-		{
-			arrayToShowInConsole.push(arrayForCpuMulti[j][i][1]);
-			arrayToShowInConsole2.push(arrayForCpuMulti[j][i][2]);
-			arrayToShowInConsole3.push(arrayForCpuMulti[j][i][3]);
-
-		}
-		var maxOfArray = 100;
-		var arrayToShowInConsoleLength = arrayToShowInConsole.length;
-		for(var j = 0; j < arrayToShowInConsoleLength; j++)
-		{
-			arrayToShowInConsole[j] = ((arrayToShowInConsole[j]/maxOfArray)*100).toFixed(1);
-		}
-		var fillThis = document.getElementById("mpStat"+i+"-write").getContext("2d");
-		fillAreaInChart(arrayToShowInConsole, baseArrayForCPUMultiCore, "blue",fillThis, heightForCanvas, widthForCanvas,1);
-		fillAreaInChart(arrayToShowInConsole2, baseArrayForCPUMultiCore, "red",fillThis, heightForCanvas, widthForCanvas,1);
-		fillAreaInChart(arrayToShowInConsole3, baseArrayForCPUMultiCore, "yellow",fillThis, heightForCanvas, widthForCanvas,1);
-
-		var popupFillArea = document.getElementById("mpStat"+i+"writePopupCanvas");
-		if(popupFillArea)
-		{
-			baseArrayForCPUMultiCore = baseArray;
-			var arrayOfArraysToFillWith = [arrayToShowInConsole, arrayToShowInConsole2, arrayToShowInConsole3];
-			popupFillInChart(popupFillArea, baseArrayForCPUMultiCore, arrayOfArraysToFillWith);
-			document.getElementById('popupGraphLowerTr').innerHTML = "<th  style='text-align:left;'>Total: "+((parseFloat(arrayToShowInConsole[arrayToShowInConsoleLength-1]) + parseFloat(arrayToShowInConsole2[arrayToShowInConsoleLength-1]) + parseFloat(arrayToShowInConsole3[arrayToShowInConsoleLength-1])).toFixed(2))+"%</th><th style='background-color:blue; width:25px;'></th><th  style='text-align:left;'>User: "+arrayToShowInConsole[arrayToShowInConsoleLength-1]+"%</th><th style='background-color:red; width:25px;'></th><th  style='text-align:left;'>System: "+arrayToShowInConsole2[arrayToShowInConsoleLength-1]+"%</th><th style='background-color:yellow; width:25px;'></th><th  style='text-align:left;'>Other: "+arrayToShowInConsole3[arrayToShowInConsoleLength-1]+"%</th>";
-		}
-	}
-
-}
-
 function filterDataFromRUsage(dataInner)
 {
 	phpUserTimeDiff.push((parseFloat(dataInner['ru_utime.tv_usec'])) + (1000000*dataInner["ru_utime.tv_sec"]));
@@ -455,8 +351,11 @@ function filterDataForFreeSwap(dataInner)
 
 function filterDataForioStatDx(dataInner)
 {
-	var dataInnerLength = dataInner[0].length;
-	var dataInnerLength2 = dataInner[1].length;
+	
+	dataInner = dataInner.substring(dataInner.indexOf("kB_wrtn")+8);
+	dataInner = dataInner.substring(dataInner.indexOf("kB_wrtn")+8);
+	dataInner = filterData(dataInner, 5);
+	var dataInnerLength = dataInner.length;
 	var htmlForDiskIO = "<table style='width: 100%;'>";
 	htmlForDiskIO += "<tr><th>Disk</th><th>Read</th><th>Write</th></tr>"
 	var height = 38;
@@ -466,13 +365,10 @@ function filterDataForioStatDx(dataInner)
 	}	
 	while(dataInnerLength > 6)
 	{
-		dataInner[0].pop();
-		dataInnerLength = dataInner[0].length;
-		dataInner[1].pop();
-		dataInnerLength = dataInner[1].length;
+		dataInner.pop();
+		dataInnerLength = dataInner.length;
 	}
-	ioDiff.push(dataInner[0]);
-	ioDiff.push(dataInner[1]);
+	ioDiff.push(dataInner);
 	var ioDiffLength = ioDiff.length;
 	if(ioDiffLength > 1)
 	{
@@ -480,9 +376,9 @@ function filterDataForioStatDx(dataInner)
 		for(var i = 0; i < dataInnerLength; i++)
 		{
 			var arrayToPush = [];
-			htmlForDiskIO += "<tr><td>"+dataInner[0][i][0]+"</td>";	
-			htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"readPopupCanvas"+'"'+","+'"'+dataInner[0][i][0]+" Read"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-read' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"px'></canvas></td>";
-			htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"writePopupCanvas"+'"'+","+'"'+dataInner[0][i][0]+" Write"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-write' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"'></canvas></td>";
+			htmlForDiskIO += "<tr><td>"+dataInner[i][0]+"</td>";	
+			htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"readPopupCanvas"+'"'+","+'"'+dataInner[i][0]+" Read"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-read' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"px'></canvas></td>";
+			htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"writePopupCanvas"+'"'+","+'"'+dataInner[i][0]+" Write"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-write' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"'></canvas></td>";
 			htmlForDiskIO += "</tr>";	
 			if(ioDiffLength > 1)
 			{
@@ -568,11 +464,11 @@ function filterDataForioStatDx(dataInner)
 
 function filterDataForNetworkDev(dataInner)
 {
-	networkArrayOfArrays.push(dataInner[0]);
-	networkArrayOfArrays.push(dataInner[1]);
-	if(networkArrayOfArrays.length > 22)
+	dataInner = dataInner.substring(dataInner.indexOf("carrier compressed")+19);
+	dataInner = filterData(dataInner, 16);
+	networkArrayOfArrays.push(dataInner);
+	if(networkArrayOfArrays.length > 21)
 	{
-		networkArrayOfArrays.shift();
 		networkArrayOfArrays.shift();
 	}
 	if(networkArrayOfArrays.length > 1)
@@ -596,13 +492,13 @@ function filterDataForNetworkDev(dataInner)
 	}
 	var htmlForNetwork = "<table style='width: 100%;'>";
 	htmlForNetwork += "<tr><th style='width:50px;'>Interface</th><th>Receive</th><th>Transmit</th></tr>";
-	var networkArrayOfArraysLength = networkArrayOfArraysDifference[0].length;
-	var count = networkArrayOfArraysDifference.length;
+	var networkArrayOfArraysLength = networkArrayOfArrays[0].length;
+	var count = networkArrayOfArrays.length -1;
 	for (var i = 0; i < networkArrayOfArraysLength; i++)
 	{
 		htmlForNetwork += "<tr><td>"+networkArrayOfArrays[count][i][0]+"</td>"
 		htmlForNetwork += "<td>";
-		if(!(networkArrayOfArraysDifference.length > 1))
+		if(!(networkArrayOfArrays.length > 1))
 		{
 			htmlForNetwork += "<img style='margin-top: 25px; margin-left: 75px; position: absolute;' src='"+baseRedirect+"core/img/loading.gif' height='50' width='50'>";
 		}
@@ -612,7 +508,7 @@ function filterDataForNetworkDev(dataInner)
 		}
 		htmlForNetwork += "<canvas onclick='showGraphPopup("+'"'+"networkGraphPopup"+networkArrayOfArrays[count][i][0]+"receive"+'"'+","+'"'+networkArrayOfArrays[count][i][0]+" Receive"+'"'+","+'"'+"onePage"+'"'+")' id='"+networkArrayOfArrays[count][i][0]+"-downloadCanvas' style='background-color:#333; border: 1px solid white; cursor: pointer;' width='200' height='100' ></canvas><div class='TableInfoForNet'>Bytes: "+networkArrayOfArrays[count][i][1]+"</div></td>"
 		htmlForNetwork += "<td>";
-		if(!(networkArrayOfArraysDifference.length > 1))
+		if(!(networkArrayOfArrays.length > 1))
 		{
 			htmlForNetwork += "<img style='margin-top: 25px; margin-left: 75px; position: absolute;' src='"+baseRedirect+"core/img/loading.gif' height='50' width='50'>";
 		}
@@ -624,7 +520,7 @@ function filterDataForNetworkDev(dataInner)
 	}
 	htmlForNetwork += "</table>";
 	document.getElementById('networkArea').innerHTML = htmlForNetwork;
-	if(networkArrayOfArraysDifference.length > 1)
+	if(networkArrayOfArrays.length > 1)
 	{
 		for (var i = 0; i < networkArrayOfArraysLength; i++)
 		{
@@ -705,8 +601,8 @@ function filterDataForProcessesPreSort(dataInner)
 
 function filterDataFromProcStat(dataInner)
 {
-	processInfoArray.push([dataInner[0][0][1],dataInner[0][0][3],dataInner[0][0][4],dataInner[0][0][5]]);
-	processInfoArray.push([dataInner[1][0][1],dataInner[1][0][3],dataInner[1][0][4],dataInner[1][0][5]]);
+	dataInner = filterData(dataInner, 10);
+	processInfoArray.push([dataInner[0][1],dataInner[0][3],dataInner[0][4],dataInner[0][5]]);
 	if(processInfoArray.length > 1)
 	{
 		var processOneDiff = [processInfoArray[1][0]]-processInfoArray[0][0];
@@ -718,7 +614,6 @@ function filterDataFromProcStat(dataInner)
 		{
 			processInfoArrayDiff.shift();
 		}
-		processInfoArray.shift();
 		processInfoArray.shift();
 		var currentLengthOfArray = processInfoArrayDiff.length;
 		var user = processInfoArrayDiff[currentLengthOfArray-1][0];

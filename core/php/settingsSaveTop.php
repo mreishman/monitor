@@ -31,8 +31,7 @@ require_once('loadVarsTop.php');
 			'pollingRateOverviewMain' => '".$pollingRateOverviewMain."',
 			'pollingRateOverviewSlow' => '".$pollingRateOverviewSlow."',
 			'pollingRateOverviewMainType'	=> '".$pollingRateOverviewMainType."',
-			'pollingRateOverviewSlowType'	=> '".$pollingRateOverviewSlowType."',
-			'defaultProcessorSort'	=> '".$defaultProcessorSort."'
+			'pollingRateOverviewSlowType'	=> '".$pollingRateOverviewSlowType."'
 			);
 	?>";
 
