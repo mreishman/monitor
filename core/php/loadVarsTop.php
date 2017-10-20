@@ -78,17 +78,5 @@ else
 {
 	$pollingRateOverviewSlowType = $defaultTopConfig['pollingRateOverviewSlowType'];
 }
-if(isset($_POST['defaultProcessorSort']))
-{
-	$defaultProcessorSort = $_POST['defaultProcessorSort'];
-}
-elseif(array_key_exists('defaultProcessorSort', $config))
-{
-	$defaultProcessorSort = $topConfig['defaultProcessorSort'];
-}
-else
-{
-	$defaultProcessorSort = $defaultTopConfig['defaultProcessorSort'];
-}
 
 ?>
