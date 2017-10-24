@@ -70,5 +70,17 @@ function filterData($dataInner, $maxRowNum)
 	return $dataInnerNewArrayOfArrays;
 }
 
+function calcuateDaysSince($lastCheck)
+{
+	$today = date('Y-m-d');
+	$old_date = $lastCheck;
+	$old_date_array = preg_split("/-/", $old_date);
+	$old_date = $old_date_array[2]."-".$old_date_array[0]."-".$old_date_array[1];
+
+	$datetime1 = date_create($old_date_array[2]."-".$old_date_array[0]."-".$old_date_array[1]);
+	$datetime2 = date_create($today);
+	$interval = date_diff($datetime1, $datetime2);
+	return $interval->format('%a');
+}
 
 ?>
