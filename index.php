@@ -368,3 +368,4 @@ $useTop = false;
 
 	</script>
 </body>
+<form id="settingsInstallUpdate" action="update/updater.php" method="post" style="display: none"></form>
