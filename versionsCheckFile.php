@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '1.1.1',
+	'version'		=> '1.1.2',
 	'versionList'		=> array(
 		'1.1'	        => array(
 			'branchName'	=> '1.1Update',
@@ -10,6 +10,10 @@ $versionCheckArray = array(
 		'1.1.1'	        => array(
 			'branchName'	=> '1.1.1Update',
 			'releaseNotes'	=> '<ul><li>Bug Fixes<ul><li>Fixed bug with sorting by some options</li><li>Fixed issue with auto check update</li><li>Fixed issue with favicon</li></ul></li></ul>'
+		),
+		'1.1.2'	        => array(
+			'branchName'	=> '1.1.2Update',
+			'releaseNotes'	=> '<ul><li>Bug Fixes<ul><li>Fixed home page issues with updater</li></ul></li></ul>'
 		),
 	)
 );
