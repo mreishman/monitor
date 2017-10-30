@@ -1334,3 +1334,70 @@ function saveSettingFromPopupNoCheckMaybe()
 	hidePopup();
 	}
 }
+
+function installUpdates()
+{
+	try
+	{
+	    displayLoadingPopup();
+		//reset vars in post request
+		var urlForSend = 'core/php/resetUpdateFilesToDefault.php?format=json'
+		var data = {status: "" };
+		$.ajax(
+		{
+			url: urlForSend,
+			dataType: "json",
+			data: data,
+			type: "POST",
+			complete: function(data)
+			{
+				//set thing to check for updated files. 	
+				timeoutVar = setInterval(function(){verifyChange();},3000);
+			}
+		});
+	}
+	catch(e)
+	{
+		eventThrowException(e);
+	}
+}
+
+function verifyChange()
+{
+	try
+	{
+	    var urlForSend = 'update/updateActionCheck.php?format=json'
+		var data = {status: "" };
+		$.ajax(
+		{
+			url: urlForSend,
+			dataType: "json",
+			data: data,
+			type: "POST",
+			success(data)
+			{
+				if(data == 'finishedUpdate')
+				{
+					clearInterval(timeoutVar);
+					actuallyInstallUpdates();
+				}
+			}
+		});
+	}
+	catch(e)
+	{
+		eventThrowException(e);
+	}
+}
+
+function actuallyInstallUpdates()
+{
+	try
+	{
+    	$("#settingsInstallUpdate").submit();
+	}
+	catch(e)
+	{
+		eventThrowException(e);
+	}
+}
