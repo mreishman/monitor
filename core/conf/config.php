@@ -19,4 +19,5 @@ $defaultConfig = array(
 		'saveSettings'	=>	'true',
 		'versionCheck'	=> 'true'
 		),
+	'defaultProcessorSort'	=> 2,
 );

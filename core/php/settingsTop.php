@@ -1,4 +1,4 @@
-<form id="settingsMainVars" action="../core/php/settingsSaveTop.php" method="post">
+<form id="settingsMainVars" action="../core/php/settingsSave.php" method="post">
 	<div class="settingsHeader">
 		Top Settings <button class="linkSmall" onclick="displayLoadingPopup();" >Save Changes</button>
 	</div>
