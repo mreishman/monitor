@@ -16,12 +16,6 @@ require_once('../core/conf/config.php');
 require_once('../core/php/configStatic.php');
 require_once('../core/php/loadVars.php');
 require_once('../core/php/updateCheck.php');
-if(file_exists($baseUrl.'conf/topConfig.php'))
-{
-	require_once($baseUrl.'conf/topConfig.php'); 
-} 
-require_once('../core/conf/configTop.php');
-require_once('../core/php/loadVarsTop.php');
 ?>
 <!doctype html>
 <head>
