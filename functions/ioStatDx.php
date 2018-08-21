@@ -1,5 +1,4 @@
 <?php
-
 require_once("../core/php/commonFunctions.php");
 
 function filterIoStatDx($dataInner)
@@ -9,6 +8,13 @@ function filterIoStatDx($dataInner)
 	return $dataInner;
 }
 
+$testVar = shell_exec(" iostat -d");
+if(is_null($testVar))
+{
+	echo json_encode(null);
+	die();
+}
+
 $first = filterData(filterIoStatDx(shell_exec(" iostat -d")), 5);
 
 sleep(1);
@@ -16,5 +22,4 @@ sleep(1);
 $second = filterData(filterIoStatDx(shell_exec(" iostat -d")),5);
 
 echo json_encode(array($first, $second));
-
 ?>
