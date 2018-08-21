@@ -81,6 +81,7 @@ $useTop = false;
 	var heightForPopup = 0;
 	var widthForPopup = 0;
 	var arrayForCpuMulti = new Array();
+	var mpStatInstalled = true;
 
 	function psAuxFunction()
 	{
@@ -95,7 +96,15 @@ $useTop = false;
 	function mpstatFunction()
 	{
 		$.getJSON('functions/mpstat.php', {}, function(data) {
-				processDataFromMpStat(data);
+				if(data !== null)
+				{
+					processDataFromMpStat(data);
+				}
+				else
+				{
+					mpStatInstalled = false;
+					document.getElementById("cpuAreaMultiCore").innerHTML = "<h2 style=\"color: grey\" >An error occured when running the mpstat command</h2>"
+				}
 			});
 	}
 
@@ -111,7 +120,10 @@ $useTop = false;
 
 	function poll()
 	{
-		mpstatFunction();
+		if(mpStatInstalled)
+		{
+			mpstatFunction();
+		}
 	}
 
 	function slowPoll()
