@@ -15,7 +15,7 @@ if(is_null($testVar))
 	die();
 }
 
-$first = filterData(filterIoStatDx(shell_exec(" iostat -d")), 5);
+$first = filterData(filterIoStatDx($testVar), 5);
 
 sleep(1);
 
