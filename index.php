@@ -245,6 +245,10 @@ $useTop = false;
 			else
 			{
 				ioStatNotInstalled = true;
+				var htmlForDiskIO = "<p>To view stats</p><p><b>check if</b></p><p> ioStat is installed</p>";
+				document.getElementById('DIOCanvas').innerHTML = htmlForDiskIO;
+				document.getElementById('canvasMonitorLoading_DIO').style.display = "none";
+				document.getElementById('DIOCanvas').style.display = "block";
 			}
 		})
 	}
