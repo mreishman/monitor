@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '1.1.3',
+	'version'		=> '1.1.4',
 	'versionList'		=> array(
 		'1.1'	        => array(
 			'branchName'	=> '1.1Update',
@@ -18,6 +18,10 @@ $versionCheckArray = array(
 		'1.1.3'	        => array(
 			'branchName'	=> '1.1.3Update',
 			'releaseNotes'	=> '<ul><li>Bug Fixes<ul><li>Selenium monitor link</li><li>Updater patch</li></ul></li></ul>'
+		),
+		'1.1.4'	        => array(
+			'branchName'	=> '1.1.4Update',
+			'releaseNotes'	=> '<ul><li>Bug Fixes<ul><li>Fix for ioStat message if not installed</li><li>Fix for mpstat message if not installed</li></ul></li></ul>'
 		),
 	)
 );
