@@ -596,7 +596,14 @@ function filterDataForNetworkDev(dataInner)
 		}
 	}
 	var htmlForNetwork = "<table style='width: 100%;'>";
-	htmlForNetwork += "<tr><th style='width:50px;'>Interface</th><th>Receive</th><th>Transmit</th></tr>";
+	if(innerWidth > 1100)
+	{
+		htmlForNetwork += "<tr><th style='width:50px;'>Interface</th><th>Receive</th><th>Transmit</th></tr>";
+	}
+	else
+	{
+		htmlForNetwork += "<tr><th style='width:50px;'></th><th>R</th><th>T</th></tr>";
+	}
 	var networkArrayOfArraysLength = networkArrayOfArraysDifference[0].length;
 	var count = networkArrayOfArraysDifference.length;
 	for (var i = 0; i < networkArrayOfArraysLength; i++)
@@ -609,9 +616,28 @@ function filterDataForNetworkDev(dataInner)
 		}
 		else
 		{
-			htmlForNetwork += "<div class='TableInfoForNet'>Current: "+networkArrayOfArraysDifference[count-1][i][0]+"</div>"
+			htmlForNetwork += "<div ";
+			if(innerWidth <= 1100)
+			{
+				htmlForNetwork += " style = 'display: none;' ";
+			}
+			htmlForNetwork += " class='TableInfoForNet'>Current: "+networkArrayOfArraysDifference[count-1][i][0]+"</div>";
 		}
-		htmlForNetwork += "<canvas onclick='showGraphPopup("+'"'+"networkGraphPopup"+networkArrayOfArrays[count][i][0]+"receive"+'"'+","+'"'+networkArrayOfArrays[count][i][0]+" Receive"+'"'+","+'"'+"onePage"+'"'+")' id='"+networkArrayOfArrays[count][i][0]+"-downloadCanvas' style='background-color:#333; border: 1px solid white; cursor: pointer;' width='200' height='100' ></canvas><div class='TableInfoForNet'>Bytes: "+networkArrayOfArrays[count][i][1]+"</div></td>"
+		htmlForNetwork += "<canvas onclick='showGraphPopup("+'"'+"networkGraphPopup"+networkArrayOfArrays[count][i][0]+"receive"+'"'+","+'"'+networkArrayOfArrays[count][i][0]+" Receive"+'"'+","+'"'+"onePage"+'"'+")' id='"+networkArrayOfArrays[count][i][0]+"-downloadCanvas' style='background-color:#333; border: 1px solid white; cursor: pointer;'";
+		if(innerWidth > 1100)
+		{
+			htmlForNetwork += " width='200' height='100' ";
+		}
+		else
+		{
+			htmlForNetwork += " width='60' height='30' ";
+		}
+		htmlForNetwork += " ></canvas><div ";
+		if(innerWidth <= 1100)
+		{
+			htmlForNetwork += " style = 'display: none;' ";
+		}
+		htmlForNetwork += " class='TableInfoForNet'>Bytes: "+networkArrayOfArrays[count][i][1]+"</div></td>";
 		htmlForNetwork += "<td>";
 		if(!(networkArrayOfArraysDifference.length > 1))
 		{
@@ -619,12 +645,51 @@ function filterDataForNetworkDev(dataInner)
 		}
 		else
 		{
-			htmlForNetwork += "<div class='TableInfoForNet'>Current: "+networkArrayOfArraysDifference[count-1][i][2]+"</div>"
+			htmlForNetwork += "<div ";
+			if(innerWidth <= 1100)
+			{
+				htmlForNetwork += " style = 'display: none;' ";
+			}
+			htmlForNetwork += " class='TableInfoForNet'>Current: "+networkArrayOfArraysDifference[count-1][i][2]+"</div>";
 		}
-		htmlForNetwork += "<canvas onclick='showGraphPopup("+'"'+"networkGraphPopup"+networkArrayOfArrays[count][i][0]+"transmit"+'"'+","+'"'+networkArrayOfArrays[count][i][0]+" Transmit"+'"'+","+'"'+"onePage"+'"'+")' id='"+networkArrayOfArrays[count][i][0]+"-uploadCanvas' style='background-color:#333; border: 1px solid white; cursor: pointer;' width='200' height='100' ></canvas><div class='TableInfoForNet'>Bytes: "+networkArrayOfArrays[count][i][9]+"</div></td></tr>"
+		htmlForNetwork += "<canvas onclick='showGraphPopup("+'"'+"networkGraphPopup"+networkArrayOfArrays[count][i][0]+"transmit"+'"'+","+'"'+networkArrayOfArrays[count][i][0]+" Transmit"+'"'+","+'"'+"onePage"+'"'+")' id='"+networkArrayOfArrays[count][i][0]+"-uploadCanvas' style='background-color:#333; border: 1px solid white; cursor: pointer;'"
+		if(innerWidth > 1100)
+		{
+			htmlForNetwork += " width='200' height='100' ";
+		}
+		else
+		{
+			htmlForNetwork += " width='60' height='30' ";
+		}
+		htmlForNetwork += " ></canvas><div ";
+		if(innerWidth <= 1100)
+		{
+			htmlForNetwork += " style = 'display: none;' ";
+		}
+		htmlForNetwork += " class='TableInfoForNet'>Bytes: "+networkArrayOfArrays[count][i][9]+"</div></td></tr>";
 	}
 	htmlForNetwork += "</table>";
-	document.getElementById('networkArea').innerHTML = htmlForNetwork;
+	if(innerWidth > 1100)
+	{
+		document.getElementById('networkArea').innerHTML = htmlForNetwork;
+		if(document.getElementById('NETCanvas').innerHTML !== "")
+		{
+			document.getElementById('NETCanvas').innerHTML = "";
+		}
+	}
+	else
+	{
+		if(document.getElementById('networkArea').innerHTML !== "")
+		{
+			document.getElementById('networkArea').innerHTML = "";
+		}
+		document.getElementById('NETCanvas').innerHTML = htmlForNetwork;
+		if(document.getElementById('canvasMonitorLoading_NET').style.display !== "none")
+		{
+			document.getElementById('canvasMonitorLoading_NET').style.display = "none";
+			document.getElementById('NETCanvas').style.display = "block";
+		}
+	}
 	if(networkArrayOfArraysDifference.length > 1)
 	{
 		for (var i = 0; i < networkArrayOfArraysLength; i++)
@@ -647,8 +712,9 @@ function filterDataForNetworkDev(dataInner)
 			{
 				arrayToShowInConsole[j] = ((arrayToShowInConsole[j]/maxOfArray)*100).toFixed(1);
 			}
-			var fillThis = document.getElementById(networkArrayOfArrays[count][i][0]+"-downloadCanvas").getContext("2d");
-			fillAreaInChart(arrayToShowInConsole, baseArray, "blue",fillThis, 100, 200,1);
+			var elementToFill = document.getElementById(networkArrayOfArrays[count][i][0]+"-downloadCanvas");
+			var fillThis = elementToFill.getContext("2d");
+			fillAreaInChart(arrayToShowInConsole, baseArray, "blue",fillThis, elementToFill.getBoundingClientRect().height, elementToFill.getBoundingClientRect().width,1);
 
 			var fillPopoupArea = document.getElementById("networkGraphPopup"+networkArrayOfArrays[count][i][0]+"receive");
 			if(fillPopoupArea)
@@ -676,8 +742,9 @@ function filterDataForNetworkDev(dataInner)
 			{
 				arrayToShowInConsole[j] = ((arrayToShowInConsole[j]/maxOfArray)*100).toFixed(1);
 			}
-			fillThis = document.getElementById(networkArrayOfArrays[count][i][0]+"-uploadCanvas").getContext("2d");
-			fillAreaInChart(arrayToShowInConsole, baseArray, "blue",fillThis, 100, 200,1);
+			elementToFill = document.getElementById(networkArrayOfArrays[count][i][0]+"-uploadCanvas");
+			fillThis = elementToFill.getContext("2d");
+			fillAreaInChart(arrayToShowInConsole, baseArray, "blue",fillThis, elementToFill.getBoundingClientRect().height, elementToFill.getBoundingClientRect().width,1);
 
 			var fillPopoupArea = document.getElementById("networkGraphPopup"+networkArrayOfArrays[count][i][0]+"transmit");
 			if(fillPopoupArea)

@@ -502,3 +502,28 @@ div {
 	background-color: #333;
 	border: 1px solid white;
 }
+
+#networkBlockIndexHeader
+{
+	display: none;
+}
+
+
+@media only screen and (max-width: 1100px)
+{
+    .bottomBarOverviewHalf
+    {
+        width: 100%;
+    }
+
+    .bottomBarOverviewRight
+    {
+    	display: none;
+    }
+
+    #networkBlockIndexHeader
+	{
+		display: inline-block;
+	}
+
+}

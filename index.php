@@ -85,7 +85,12 @@ $useTop = false;
 				<div id="DIOCanvas" style="height: 200px; width: 200px; display: none;" class="canvasMonitor" ></div>
 				<div class="canvasMonitorText canvasMonitorTextBottom"><span style="color: white;">n/a</span></div>
 			</div>
-			
+			<div id="networkBlockIndexHeader" class="canvasMonitorDiv" >	
+				<div class="canvasMonitorText canvasMonitorTextTop">Network</div>
+				<img id="canvasMonitorLoading_NET" class="loadingSpinner" src='<?php echo $baseRedirectTwo; ?>core/img/loading.gif' height='50' width='50'> 
+				<div id="NETCanvas" style="height: 200px; width: 200px; display: none;" class="canvasMonitor" ></div>
+				<div class="canvasMonitorText canvasMonitorTextBottom"><span style="color: white;">n/a</span></div>
+			</div>
 
 		</div>
 		<div id="bottomBarOverview">
