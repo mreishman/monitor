@@ -322,102 +322,6 @@ function filterDataForMpStat(dataInner)
 
 }
 
-function filterDataFromRUsage(dataInner)
-{
-	phpUserTimeDiff.push((parseFloat(dataInner['ru_utime.tv_usec'])) + (1000000*dataInner["ru_utime.tv_sec"]));
-	if(phpUserTimeDiff.length > 1)
-	{
-		var phpUserTimeDiffForHistory = phpUserTimeDiff[1] - phpUserTimeDiff[0];
-		filterDataFromRUsageUser(phpUserTimeDiffForHistory);
-		phpUserTimeDiff.shift();
-	}
-	phpSystemTimeDiff.push(parseFloat(dataInner['ru_stime.tv_usec']));
-	if(phpSystemTimeDiff.length > 1)
-	{
-		phpSystemTimeDiffForHistory = phpSystemTimeDiff[1] - phpSystemTimeDiff[0]
-		if(phpSystemTimeDiff[1] < phpSystemTimeDiff[0])
-		{
-			phpSystemTimeDiffForHistory = phpSystemTimeDiff[1] - (phpSystemTimeDiff[0]+1000000);
-		}
-		if(phpSystemTimeDiffForHistory > 0)
-		{
-			filterDataFromRUsageSystem(phpSystemTimeDiffForHistory);
-			
-		}
-		phpSystemTimeDiff.shift();
-	}
-}
-
-function filterDataFromRUsageUser(phpUserTimeDiffForHistory)
-{
-	phpUserTimeHistory.push(phpUserTimeDiffForHistory);
-	phpUserTimeHistory.shift();
-
-	document.getElementById('canvasMonitorLoading_PHP_UTU').style.display = "none";
-	document.getElementById('PHPUTUCanvas').style.display = "block";
-
-	var arrayToShowInConsole = new Array();
-	var baseArray = new Array();
-	phpUserTimeHistoryLength = phpUserTimeHistory.length;
-	for (var j = 0; j < (phpUserTimeHistoryLength); j++) 
-	{
-		arrayToShowInConsole.push(phpUserTimeHistory[j]);
-		baseArray.push(0);
-	}
-	var maxOfArray = Math.max.apply(Math, arrayToShowInConsole);
-	var arrayToShowInConsoleLength = arrayToShowInConsole.length;
-	document.getElementById('canvasMonitorPHPUTUText').innerHTML = arrayToShowInConsole[arrayToShowInConsoleLength-1] + "/" + maxOfArray;
-	for(var j = 0; j < arrayToShowInConsoleLength; j++)
-	{
-		arrayToShowInConsole[j] = ((arrayToShowInConsole[j]/maxOfArray)*100).toFixed(1);
-	}
-	phpUserTimeAreaContext.clearRect(0, 0, phpUserTimeArea.height, phpUserTimeArea.width);
-	fillAreaInChart(arrayToShowInConsole, baseArray, "blue",phpUserTimeAreaContext, phpUserTimeArea.height, phpUserTimeArea.width,1);
-	var phpUTUPopupArea = document.getElementById('phpUTUPopupCanvas');
-	if(phpUTUPopupArea)
-	{
-		var arrayOfArraysToFillWith = [arrayToShowInConsole];
-		popupFillInChart(phpUTUPopupArea, baseArray, arrayOfArraysToFillWith);
-		document.getElementById('popupGraphLowerTr').innerHTML = "<th style='background-color:blue; width:25px;'><th  style='text-align:left;'>Current: "+arrayToShowInConsole[arrayToShowInConsoleLength-1]+"% of "+maxOfArray+"</th></th>";
-	}
-
-}
-
-function filterDataFromRUsageSystem(phpSystemTimeDiffForHistory)
-{
-	phpSystemTimeHistory.push(phpSystemTimeDiffForHistory);
-	phpSystemTimeHistory.shift();
-
-	document.getElementById('canvasMonitorLoading_PHP_STU').style.display = "none";
-	document.getElementById('PHPSTUCanvas').style.display = "block";
-
-	var arrayToShowInConsole = new Array();
-	var baseArray = new Array();
-	phpSystemTimeHistoryLength = phpSystemTimeHistory.length;
-	for (var j = 0; j < (phpSystemTimeHistoryLength); j++) 
-	{
-		arrayToShowInConsole.push(phpSystemTimeHistory[j]);
-		baseArray.push(0);
-	}
-	var maxOfArray = Math.max.apply(Math, arrayToShowInConsole);
-	var arrayToShowInConsoleLength = arrayToShowInConsole.length;
-	document.getElementById('canvasMonitorPHPSTUText').innerHTML = arrayToShowInConsole[arrayToShowInConsoleLength-1] + "/" + maxOfArray;
-	for(var j = 0; j < arrayToShowInConsoleLength; j++)
-	{
-		arrayToShowInConsole[j] = ((arrayToShowInConsole[j]/maxOfArray)*100).toFixed(1);
-	}
-	var fillThis = document.getElementById("PHPSTUCanvas");
-	var fillThisContext= fillThis.getContext("2d");
-	fillThisContext.clearRect(0, 0, fillThis.height, fillThis.width);
-	fillAreaInChart(arrayToShowInConsole, baseArray, "blue",fillThisContext, fillThis.height, fillThis.width,1);
-	var phpSTUPopupArea = document.getElementById('phpSTUPopupCanvas');
-	if(phpSTUPopupArea)
-	{
-		var arrayOfArraysToFillWith = [arrayToShowInConsole];
-		popupFillInChart(phpSTUPopupArea, baseArray, arrayOfArraysToFillWith);
-		document.getElementById('popupGraphLowerTr').innerHTML = "<th style='background-color:blue; width:25px;'><th  style='text-align:left;'>Current: "+arrayToShowInConsole[arrayToShowInConsoleLength-1]+"% of "+maxOfArray+"</th></th>";
-	}
-}
 //check if used + free = total, if not add buffer/cache
 function filterDataForFreeRam(dataInner)
 {
@@ -456,6 +360,8 @@ function filterDataForFreeSwap(dataInner)
 
 function filterDataForioStatDx(dataInner)
 {
+	sortArray(dataInner[0], 2);
+	sortArray(dataInner[1], 2);
 	var dataInnerLength = dataInner[0].length;
 	var dataInnerLength2 = dataInner[1].length;
 	var htmlForDiskIO = "<table style='width: 100%;'>";
@@ -464,107 +370,105 @@ function filterDataForioStatDx(dataInner)
 	if(dataInnerLength > 3)
 	{
 		height = 24;
-	}	
-	while(dataInnerLength > 6)
-	{
-		dataInner[0].pop();
-		dataInnerLength = dataInner[0].length;
-		dataInner[1].pop();
-		dataInnerLength = dataInner[1].length;
 	}
+	// while(dataInnerLength > 6)
+	// {
+	// 	dataInner[0].pop();
+	// 	dataInnerLength = dataInner[0].length;
+	// 	dataInner[1].pop();
+	// 	dataInnerLength2 = dataInner[1].length;
+	// }
 	ioDiff.push(dataInner[0]);
 	ioDiff.push(dataInner[1]);
 	var ioDiffLength = ioDiff.length;
-	if(ioDiffLength > 1)
+	var outerArrayToPush = [];
+	for(var i = 0; i < dataInnerLength; i++)
 	{
-		var outerArrayToPush = [];
-		for(var i = 0; i < dataInnerLength; i++)
+		var arrayToPush = [];
+		htmlForDiskIO += "<tr><td>"+dataInner[0][i][2]+"</td>";	
+		htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"readPopupCanvas"+'"'+","+'"'+dataInner[0][i][2]+" Read"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-read' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"px'></canvas></td>";
+		htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"writePopupCanvas"+'"'+","+'"'+dataInner[0][i][2]+" Write"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-write' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"'></canvas></td>";
+		htmlForDiskIO += "</tr>";	
+		if(ioDiffLength > 1)
 		{
-			var arrayToPush = [];
-			htmlForDiskIO += "<tr><td>"+dataInner[0][i][0]+"</td>";	
-			htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"readPopupCanvas"+'"'+","+'"'+dataInner[0][i][0]+" Read"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-read' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"px'></canvas></td>";
-			htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"writePopupCanvas"+'"'+","+'"'+dataInner[0][i][0]+" Write"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-write' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"'></canvas></td>";
-			htmlForDiskIO += "</tr>";	
-			if(ioDiffLength > 1)
-			{
-				var read = parseInt(ioDiff[1][i][4]) - parseInt(ioDiff[0][i][4]) //read
-				var written = parseInt(ioDiff[1][i][5]) - parseInt(ioDiff[0][i][5]) //written
-				arrayToPush = [read,written];
-			}
-			outerArrayToPush.push(arrayToPush);
+			var read = parseInt(ioDiff[1][i][3]) - parseInt(ioDiff[0][i][3]) //read
+			var written = parseInt(ioDiff[1][i][7]) - parseInt(ioDiff[0][i][7]) //written
+			arrayToPush = [read,written];
 		}
-		ioDiffHistory.push(outerArrayToPush);
-		if(ioDiffHistory.length > 20)
-		{
-			ioDiffHistory.shift();
-		}
-		htmlForDiskIO += "</table>";
-		document.getElementById('DIOCanvas').innerHTML = htmlForDiskIO;
-		document.getElementById('canvasMonitorLoading_DIO').style.display = "none";
-		document.getElementById('DIOCanvas').style.display = "block";
-		for(var i = 0; i < dataInnerLength; i++)
-		{
-			//create array from column in array of arrays 
-			var arrayToShowInConsole = new Array();
-			var baseArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-			ioDiffLength = ioDiffHistory.length-1;
-			for (var j = 0; j < (20 - ioDiffLength); j++) 
-			{
-				arrayToShowInConsole.push(0);
-			}
-			for (var j = 0; j < (ioDiffLength); j++) 
-			{
-				arrayToShowInConsole.push(ioDiffHistory[j][i][0]);
-			}
-			var maxOfArray = Math.max.apply(Math, arrayToShowInConsole);
-			var arrayToShowInConsoleLength = arrayToShowInConsole.length;
-			for(var j = 0; j < arrayToShowInConsoleLength; j++)
-			{
-				arrayToShowInConsole[j] = ((arrayToShowInConsole[j]/maxOfArray)*100).toFixed(1);
-			}
-			var fillThis = document.getElementById("diskIO"+i+"-read").getContext("2d");
-			fillAreaInChart(arrayToShowInConsole, baseArray, "blue",fillThis, height, 65,1);
-
-			var popupFillArea = document.getElementById("diskIO"+i+"readPopupCanvas");
-			if(popupFillArea)
-			{
-				var arrayOfArraysToFillWith = [arrayToShowInConsole];
-				popupFillInChart(popupFillArea, baseArray, arrayOfArraysToFillWith);
-				document.getElementById('popupGraphLowerTr').innerHTML = "<th style='background-color:blue; width:25px;'><th  style='text-align:left;'>Current: "+arrayToShowInConsole[arrayToShowInConsoleLength-1]+"% of "+maxOfArray+" kB</th></th>";
-			}
-
-			arrayToShowInConsole = new Array();
-			for (var j = baseArray.length - 1; j >= 0; j--) 
-			{
-				baseArray[j] = 0;
-			}
-			for (var j = 0; j < (20 - ioDiffLength); j++) 
-			{
-				arrayToShowInConsole.push(0);
-			}
-			for (var j = 0; j < (ioDiffLength); j++) 
-			{
-				arrayToShowInConsole.push(ioDiffHistory[j][i][1]);
-			}
-			maxOfArray = Math.max.apply(Math, arrayToShowInConsole);
-			arrayToShowInConsoleLength = arrayToShowInConsole.length;
-			for(var j = 0; j < arrayToShowInConsoleLength; j++)
-			{
-				arrayToShowInConsole[j] = ((arrayToShowInConsole[j]/maxOfArray)*100).toFixed(1);
-			}
-			fillThis = document.getElementById("diskIO"+i+"-write").getContext("2d");
-			fillAreaInChart(arrayToShowInConsole, baseArray, "blue",fillThis, height, 65,1);
-
-			var popupFillArea = document.getElementById("diskIO"+i+"writePopupCanvas");
-			if(popupFillArea)
-			{
-				var arrayOfArraysToFillWith = [arrayToShowInConsole];
-				popupFillInChart(popupFillArea, baseArray, arrayOfArraysToFillWith);
-				document.getElementById('popupGraphLowerTr').innerHTML = "<th style='background-color:blue; width:25px;'><th  style='text-align:left;'>Current: "+arrayToShowInConsole[arrayToShowInConsoleLength-1]+"% of "+maxOfArray+" kB</th></th>";
-			}
-		}
-		ioDiff.shift();
+		outerArrayToPush.push(arrayToPush);
 	}
+	ioDiffHistory.push(outerArrayToPush);
+	if(ioDiffHistory.length > 20)
+	{
+		ioDiffHistory.shift();
+	}
+	htmlForDiskIO += "</table>";
+	document.getElementById('DIOCanvas').innerHTML = htmlForDiskIO;
+	document.getElementById('canvasMonitorLoading_DIO').style.display = "none";
+	document.getElementById('DIOCanvas').style.display = "block";
+	for(var i = 0; i < dataInnerLength; i++)
+	{
+		//create array from column in array of arrays 
+		var arrayToShowInConsole = new Array();
+		var baseArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+		ioDiffLength = ioDiffHistory.length-1;
+		for (var j = 0; j < (20 - ioDiffLength); j++) 
+		{
+			arrayToShowInConsole.push(0);
+		}
+		for (var j = 0; j < (ioDiffLength); j++) 
+		{
+			arrayToShowInConsole.push(ioDiffHistory[j][i][0]);
+		}
+		var maxOfArray = Math.max.apply(Math, arrayToShowInConsole);
+		var arrayToShowInConsoleLength = arrayToShowInConsole.length;
+		for(var j = 0; j < arrayToShowInConsoleLength; j++)
+		{
+			arrayToShowInConsole[j] = ((arrayToShowInConsole[j]/maxOfArray)*100).toFixed(1);
+		}
+		var fillThis = document.getElementById("diskIO"+i+"-read").getContext("2d");
+		fillAreaInChart(arrayToShowInConsole, baseArray, "blue",fillThis, height, 65,1);
+
+		var popupFillArea = document.getElementById("diskIO"+i+"readPopupCanvas");
+		if(popupFillArea)
+		{
+			var arrayOfArraysToFillWith = [arrayToShowInConsole];
+			popupFillInChart(popupFillArea, baseArray, arrayOfArraysToFillWith);
+			document.getElementById('popupGraphLowerTr').innerHTML = "<th style='background-color:blue; width:25px;'><th  style='text-align:left;'>Current: "+arrayToShowInConsole[arrayToShowInConsoleLength-1]+"% of "+maxOfArray+" kB</th></th>";
+		}
+
+		arrayToShowInConsole = new Array();
+		for (var j = baseArray.length - 1; j >= 0; j--) 
+		{
+			baseArray[j] = 0;
+		}
+		for (var j = 0; j < (20 - ioDiffLength); j++) 
+		{
+			arrayToShowInConsole.push(0);
+		}
+		for (var j = 0; j < (ioDiffLength); j++) 
+		{
+			arrayToShowInConsole.push(ioDiffHistory[j][i][1]);
+		}
+		maxOfArray = Math.max.apply(Math, arrayToShowInConsole);
+		arrayToShowInConsoleLength = arrayToShowInConsole.length;
+		for(var j = 0; j < arrayToShowInConsoleLength; j++)
+		{
+			arrayToShowInConsole[j] = ((arrayToShowInConsole[j]/maxOfArray)*100).toFixed(1);
+		}
+		fillThis = document.getElementById("diskIO"+i+"-write").getContext("2d");
+		fillAreaInChart(arrayToShowInConsole, baseArray, "blue",fillThis, height, 65,1);
+
+		var popupFillArea = document.getElementById("diskIO"+i+"writePopupCanvas");
+		if(popupFillArea)
+		{
+			var arrayOfArraysToFillWith = [arrayToShowInConsole];
+			popupFillInChart(popupFillArea, baseArray, arrayOfArraysToFillWith);
+			document.getElementById('popupGraphLowerTr').innerHTML = "<th style='background-color:blue; width:25px;'><th  style='text-align:left;'>Current: "+arrayToShowInConsole[arrayToShowInConsoleLength-1]+"% of "+maxOfArray+" kB</th></th>";
+		}
+	}
+	ioDiff.shift();
+	ioDiff.shift();
 }
 
 function filterDataForNetworkDev(dataInner)
@@ -1055,9 +959,12 @@ function filterAndSort(preSortArray, limit, reverse)
 	{
 		preSortArray.reverse();
 	}
-	while(preSortArray.length > limit)
+	if(limit !== -1)
 	{
-		preSortArray.shift();
+		while(preSortArray.length > limit)
+		{
+			preSortArray.shift();
+		}
 	}
 	return preSortArray;
 }
@@ -1073,7 +980,7 @@ function filterDataForDiskSpace(dataInner)
 			filteredHDDArray.push(dataInnerNewArrayOfArraysHDD[i]);
 		}
 	}
-	filteredHDDArray = filterAndSort(filteredHDDArray, 7, true);
+	filteredHDDArray = filterAndSort(filteredHDDArray, -1, true);
 	if(filteredHDDArray.length < 7)
 	{
 		for (var i = dataInnerNewArrayOfArraysHDD.length - 1; i >= 0; i--) 
@@ -1083,7 +990,7 @@ function filterDataForDiskSpace(dataInner)
 				filteredHDDArray.push(dataInnerNewArrayOfArraysHDD[i]);
 			}
 		}
-		filteredHDDArray = filterAndSort(filteredHDDArray, 7, false);
+		filteredHDDArray = filterAndSort(filteredHDDArray, -1, false);
 		filteredHDDArray.reverse();
 	}
 	var htmlForProcesses = "<table style='width: 100%;'>";

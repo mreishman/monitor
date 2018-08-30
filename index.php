@@ -76,13 +76,13 @@ $useTop = false;
 			<div class="canvasMonitorDiv" >	
 				<div class="canvasMonitorText canvasMonitorTextTop">Disk Usage</div>
 				<img id="canvasMonitorLoading_HDD" class="loadingSpinner" src='<?php echo $baseRedirectTwo; ?>core/img/loading.gif' height='50' width='50'> 
-				<div id="HDDCanvas" style="height: 200px; width: 200px; display: none;" class="canvasMonitor" ></div>
+				<div id="HDDCanvas" style="height: 200px; width: 200px; display: none; overflow: auto;" class="canvasMonitor" ></div>
 				<div class="canvasMonitorText canvasMonitorTextBottom"><span style="color: white;">n/a</span></div>
 			</div>
 			<div class="canvasMonitorDiv" >	
 				<div class="canvasMonitorText canvasMonitorTextTop">Disk IO</div>
 				<img id="canvasMonitorLoading_DIO" class="loadingSpinner" src='<?php echo $baseRedirectTwo; ?>core/img/loading.gif' height='50' width='50'> 
-				<div id="DIOCanvas" style="height: 200px; width: 200px; display: none;" class="canvasMonitor" ></div>
+				<div id="DIOCanvas" style="height: 200px; width: 200px; display: none; overflow: auto;" class="canvasMonitor" ></div>
 				<div class="canvasMonitorText canvasMonitorTextBottom"><span style="color: white;">n/a</span></div>
 			</div>
 			<div id="networkBlockIndexHeader" class="canvasMonitorDiv" >	
@@ -181,7 +181,7 @@ $useTop = false;
 		{
 			$.getJSON('functions/topAlt.php', {}, function(data) {
 				processDataFromTOP(data);
-			})
+			});
 		}
 		else
 		{
@@ -195,7 +195,7 @@ $useTop = false;
 				{
 					processDataFromTOP(data);
 				}
-			})
+			});
 		}
 	}
 
@@ -205,17 +205,7 @@ $useTop = false;
 		{
 		$.getJSON('functions/psAux.php', {}, function(data) {
 				processDataFrompsAux(data);
-			})
-		}
-	}
-
-	function getRUsageFunction()
-	{
-		if(!dropdownMenuVisible)
-		{
-		$.getJSON('functions/getRUsage.php', {}, function(data) {
-				processDataFromRUsage(data);
-			})
+			});
 		}
 	}
 
@@ -223,51 +213,35 @@ $useTop = false;
 	{
 		$.getJSON('functions/procNetDev.php', {}, function(data) {
 				processDataFromprocNetDev(data);
-			})
+			});
 	}
 
 	function procStatFunc()
 	{
 		$.getJSON('functions/procStat.php', {}, function(data) {
 				processDataFromprocStat(data);
-			})
+			});
 	}
 
 	function procFree()
 	{
 		$.getJSON('functions/free.php', {}, function(data) {
 				processDataFromFree(data);
-			})
+			});
 	}
 
-	function ioStatDxFunction()
+	function procDiskstatsFunc()
 	{
-		$.getJSON('functions/ioStatDx.php', {}, function(data) {
-			if(data != null && data != "null")
-			{
-				processDataFromioStatDx(data);
-			}
-			else
-			{
-				ioStatNotInstalled = true;
-				var htmlForDiskIO = "<p>To view stats</p><p><b>check if</b></p><p> ioStat is installed</p>";
-				document.getElementById('DIOCanvas').innerHTML = htmlForDiskIO;
-				document.getElementById('canvasMonitorLoading_DIO').style.display = "none";
-				document.getElementById('DIOCanvas').style.display = "block";
-			}
-		})
+		$.getJSON('functions/diskstats.php', {}, function(data) {
+			processDataFromDiskStats(data);
+		});
 	}
 
 	function dfALFunction()
 	{
 		$.getJSON('functions/dfAL.php', {}, function(data) {
 				processDataFrompsdfAL(data);
-			})
-	}
-
-	function processDataFromRUsage(data)
-	{
-		filterDataFromRUsage(data);
+			});
 	}
 
 	function processDataFromprocStat(data)
@@ -281,7 +255,7 @@ $useTop = false;
 		filterDataForFreeSwap(data);
 	}
 
-	function processDataFromioStatDx(data)
+	function processDataFromDiskStats(data)
 	{
 		filterDataForioStatDx(data);
 	}
@@ -320,11 +294,7 @@ $useTop = false;
 			procStatFunc();
 		}
 		procNetDev();
-		if(!ioStatNotInstalled)
-		{
-			ioStatDxFunction();
-		}
-		//getRUsageFunction();
+		procDiskstatsFunc();
 	}
 
 	function slowPoll()
