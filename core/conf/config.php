@@ -1,7 +1,7 @@
 <?php
 
 $defaultConfig = array(
-	'pollingRateOverviewMain' => 1000,
+	'pollingRateOverviewMain' => 1500,
 	'pollingRateOverviewSlow' => 10000,
 	'configVersion'	=> 1,
 	'layoutVersion'	=> 1,
