@@ -270,7 +270,7 @@ div {
 }
 
 #topBarOverview{
-	overflow-x: scroll;
+	overflow-x: auto;
 	height: 310px;
 	white-space: nowrap;
 }
@@ -506,6 +506,26 @@ div {
 #networkBlockIndexHeader
 {
 	display: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #222;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #CCC;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #FFFFFF;
 }
 
 
