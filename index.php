@@ -46,6 +46,21 @@ $daysSince = calcuateDaysSince($configStatic['lastCheck']);
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
 	<link rel="icon" type="image/png" href="<?php echo $baseRedirectTwo; ?>core/img/favicon.png" />
 	<script src="<?php echo $baseRedirect; ?>core/js/jquery.js"></script>
+	<style type="text/css">
+		<?php if($fixedHeightForBlocks === "true"): ?>
+			#topBarOverview{
+			overflow-x: auto;
+			height: 310px;
+			white-space: nowrap;
+		}
+		<?php else: ?>
+			#topBarOverview{
+				overflow-x: auto;
+				height: auto;
+				white-space: normal;
+			}
+		<?php endif; ?>
+	</style>
 </head>
 <body>
 

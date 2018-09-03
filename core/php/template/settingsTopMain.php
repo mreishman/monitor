@@ -5,6 +5,14 @@
 	<div class="settingsDiv" >
 		<ul id="settingsUl">
 			<li>
+				<span class="settingsBuffer" >Scroll Overview Blocks: </span> 
+
+				<select id="settingsSelect" name="fixedHeightForBlocks">
+						<option <?php if($fixedHeightForBlocks == 'true'){echo "selected";} ?> value="true">True</option>
+						<option <?php if($fixedHeightForBlocks == 'false'){echo "selected";} ?> value="false">False</option>
+				</select>
+			</li>
+			<li>
 				<span class="settingsBuffer" >Auto Check Update: </span> 
 
 				<select id="settingsSelect" name="autoCheckUpdate">

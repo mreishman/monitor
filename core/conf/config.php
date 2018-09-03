@@ -21,5 +21,6 @@ $defaultConfig = array(
 		),
 	'defaultProcessorSort'	=> 2,
 	'ignoreLoopDisks'	=>	'true',
-	'ignoreLoopNetwork'	=>	'true'
+	'ignoreLoopNetwork'	=>	'true',
+	'fixedHeightForBlocks'	=>	'false'
 );

@@ -520,7 +520,25 @@ function filterDataForNetworkDev(dataInner)
 		htmlForNetwork += "<td>";
 		if(!(networkArrayOfArraysDifference.length > 1))
 		{
-			htmlForNetwork += "<img style='margin-top: 25px; margin-left: 75px; position: absolute;' src='"+baseRedirect+"core/img/loading.gif' height='50' width='50'>";
+			htmlForNetwork += "<img style=' ";
+			if(innerWidth > 1100)
+			{
+				htmlForNetwork += "margin-top: 25px; margin-left: 75px;";
+			}
+			else
+			{
+				htmlForNetwork += "margin-top: 8px; margin-left: 25px;";
+			}
+			htmlForNetwork += " position: absolute;' src='"+baseRedirect+"core/img/loading.gif'";
+			if(innerWidth > 1100)
+			{
+				htmlForNetwork += " height='50' width='50'";
+			}
+			else
+			{
+				htmlForNetwork += " height='17' width='17'";
+			}
+			htmlForNetwork += ">";
 		}
 		else
 		{
@@ -549,7 +567,25 @@ function filterDataForNetworkDev(dataInner)
 		htmlForNetwork += "<td>";
 		if(!(networkArrayOfArraysDifference.length > 1))
 		{
-			htmlForNetwork += "<img style='margin-top: 25px; margin-left: 75px; position: absolute;' src='"+baseRedirect+"core/img/loading.gif' height='50' width='50'>";
+			htmlForNetwork += "<img style=' ";
+			if(innerWidth > 1100)
+			{
+				htmlForNetwork += "margin-top: 25px; margin-left: 75px;";
+			}
+			else
+			{
+				htmlForNetwork += "margin-top: 8px; margin-left: 25px;";
+			}
+			htmlForNetwork += " position: absolute;' src='"+baseRedirect+"core/img/loading.gif'";
+			if(innerWidth > 1100)
+			{
+				htmlForNetwork += " height='50' width='50'";
+			}
+			else
+			{
+				htmlForNetwork += " height='17' width='17'";
+			}
+			htmlForNetwork += ">";
 		}
 		else
 		{

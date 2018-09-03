@@ -147,10 +147,6 @@ $daysSince = $interval->format('%a');
 			?>
 			</ul>
 		</div>
-		<div class="settingsHeader">
-			Changelog
-		</div>
-		<?php readfile('changelog.html') ?>
 	</div>
 	<?php readfile('../core/html/popup.html') ?>	
 </body>
