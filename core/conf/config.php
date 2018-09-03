@@ -20,4 +20,6 @@ $defaultConfig = array(
 		'versionCheck'	=> 'true'
 		),
 	'defaultProcessorSort'	=> 2,
+	'ignoreLoopDisks'	=>	'true',
+	'ignoreLoopNetwork'	=>	'true'
 );

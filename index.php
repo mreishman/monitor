@@ -39,8 +39,6 @@ if($pollingRateOverviewSlowType === 'Seconds')
 }
 
 $daysSince = calcuateDaysSince($configStatic['lastCheck']);
-
-$useTop = false;
 ?>
 <!doctype html>
 <head>
@@ -113,6 +111,8 @@ $useTop = false;
 		echo "var dateOfLastUpdate = '".$configStatic['lastCheck']."';";
 		echo "var daysSinceLastCheck = '".$daysSince."';";
 		echo "var daysSetToUpdate = '".$autoCheckDaysUpdate."';";
+		echo "var ignoreLoopDisks = '".$ignoreLoopDisks."';";
+		echo "var ignoreLoopNetwork = '".$ignoreLoopNetwork."';";
 		?>
 	var dontNotifyVersion = "<?php echo $dontNotifyVersion;?>";
 	var currentVersion = "<?php echo $configStatic['version'];?>";
@@ -123,7 +123,6 @@ $useTop = false;
 		defaultArray.push(0);
 	}
 	var dataSwap = false;
-	var useTop = false;
 	var nullReturnForDefaultPoll = false;
 	var cpuInfoArray_User = [];
 	var cpuInfoArray_heightVar = [];
@@ -174,30 +173,6 @@ $useTop = false;
 	var swapAreaContext = swapArea.getContext("2d");
 
 	var numberOfCores = 0;
-
-	function topFunction()
-	{
-		if(nullReturnForDefaultPoll)
-		{
-			$.getJSON('functions/topAlt.php', {}, function(data) {
-				processDataFromTOP(data);
-			});
-		}
-		else
-		{
-			$.getJSON('<?php echo $baseRedirect; ?>core/php/top.php', {}, function(data) {
-				if(data == null)
-				{
-					nullReturnForDefaultPoll = true;
-					topFunction();
-				}
-				else
-				{
-					processDataFromTOP(data);
-				}
-			});
-		}
-	}
 
 	function psAuxFunction()
 	{
@@ -275,24 +250,10 @@ $useTop = false;
 		filterDataForDiskSpace(data);
 	}
 
-	function processDataFromTOP(data)
-	{
-		filterDataForCPU(data);
-		filterDataForRAM(data);
-		filterDataForCache(data);
-	}
-
 	function poll()
 	{
-		if(useTop)
-		{
-			topFunction();
-		}
-		else
-		{
-			procFree();
-			procStatFunc();
-		}
+		procFree();
+		procStatFunc();
 		procNetDev();
 		procDiskstatsFunc();
 	}
@@ -302,7 +263,7 @@ $useTop = false;
 		dfALFunction();
 		psAuxFunction();
 	}
-	
+
 	function resize()
 	{
 		var offsetHeight = 0;

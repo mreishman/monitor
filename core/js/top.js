@@ -371,13 +371,6 @@ function filterDataForioStatDx(dataInner)
 	{
 		height = 24;
 	}
-	// while(dataInnerLength > 6)
-	// {
-	// 	dataInner[0].pop();
-	// 	dataInnerLength = dataInner[0].length;
-	// 	dataInner[1].pop();
-	// 	dataInnerLength2 = dataInner[1].length;
-	// }
 	ioDiff.push(dataInner[0]);
 	ioDiff.push(dataInner[1]);
 	var ioDiffLength = ioDiff.length;
@@ -385,10 +378,13 @@ function filterDataForioStatDx(dataInner)
 	for(var i = 0; i < dataInnerLength; i++)
 	{
 		var arrayToPush = [];
-		htmlForDiskIO += "<tr><td>"+dataInner[0][i][2]+"</td>";	
-		htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"readPopupCanvas"+'"'+","+'"'+dataInner[0][i][2]+" Read"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-read' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"px'></canvas></td>";
-		htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"writePopupCanvas"+'"'+","+'"'+dataInner[0][i][2]+" Write"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-write' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"'></canvas></td>";
-		htmlForDiskIO += "</tr>";	
+		if(!(ignoreLoopDisks === "true" && dataInner[0][i][2].toLowerCase().startsWith("loop")))
+		{
+			htmlForDiskIO += "<tr><td>"+dataInner[0][i][2]+"</td>";	
+			htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"readPopupCanvas"+'"'+","+'"'+dataInner[0][i][2]+" Read"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-read' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"px'></canvas></td>";
+			htmlForDiskIO += "<td onclick='showGraphPopup("+'"'+"diskIO"+i+"writePopupCanvas"+'"'+","+'"'+dataInner[0][i][2]+" Write"+'"'+","+'"'+"onePage"+'"'+")' style='cursor: pointer;'  ><canvas id='diskIO"+i+"-write' style='background-color: #333; border: 1px solid white;' width='65px' height='"+height+"'></canvas></td>";
+			htmlForDiskIO += "</tr>";
+		}
 		if(ioDiffLength > 1)
 		{
 			var read = parseInt(ioDiff[1][i][3]) - parseInt(ioDiff[0][i][3]) //read
@@ -408,6 +404,10 @@ function filterDataForioStatDx(dataInner)
 	document.getElementById('DIOCanvas').style.display = "block";
 	for(var i = 0; i < dataInnerLength; i++)
 	{
+		if(ignoreLoopDisks === "true" && dataInner[0][i][2].toLowerCase().startsWith("loop"))
+		{
+			continue;
+		}
 		//create array from column in array of arrays 
 		var arrayToShowInConsole = new Array();
 		var baseArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -512,6 +512,10 @@ function filterDataForNetworkDev(dataInner)
 	var count = networkArrayOfArraysDifference.length;
 	for (var i = 0; i < networkArrayOfArraysLength; i++)
 	{
+		if(ignoreLoopNetwork === "true" && networkArrayOfArrays[count][i][0].toLowerCase().startsWith("lo"))
+		{
+			continue;
+		}
 		htmlForNetwork += "<tr><td>"+networkArrayOfArrays[count][i][0]+"</td>"
 		htmlForNetwork += "<td>";
 		if(!(networkArrayOfArraysDifference.length > 1))
@@ -598,6 +602,10 @@ function filterDataForNetworkDev(dataInner)
 	{
 		for (var i = 0; i < networkArrayOfArraysLength; i++)
 		{
+			if(ignoreLoopNetwork === "true" && networkArrayOfArrays[count][i][0].toLowerCase().startsWith("lo"))
+			{
+				continue;
+			}
 			//create array from column in array of arrays 
 			var arrayToShowInConsole = new Array();
 			var baseArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -1044,18 +1052,6 @@ function filterDataForDiskSpace(dataInner)
 	document.getElementById('HDDCanvas').innerHTML = htmlForProcesses;
 }
 
-function filterDataForCache(dataInner)
-{
-	dataInner = dataInner.substring(dataInner.indexOf("KiB Swap:")+9);
-	dataInner = dataInner.replace(/\s/g, '');
-	dataInner = dataInner.split(",");
-	//0 = total, 1 = free, 2 = used
-	var totalSwap = dataInner[0].substring(0, dataInner[0].length - 5);
-	var freeSwap = dataInner[1].substring(0, dataInner[1].length - 4);
-	var usedSwap = dataInner[2].substring(0, dataInner[2].length - 4);
-	filterDataForCacheSubFunction(totalSwap, usedSwap);
-}
-
 function filterDataForCacheSubFunction(totalSwap, usedSwap)
 {
 	usedSwap = parseFloat(usedSwap)/parseInt(totalSwap);
@@ -1075,19 +1071,6 @@ function filterDataForCacheSubFunction(totalSwap, usedSwap)
 		popupFillInChart(swapPopupArea, swapInfoArray_heightVar, arrayOfArraysToFillWith);
 		document.getElementById('popupGraphLowerTr').innerHTML = "<th style='background-color:blue; width:25px;'><th  style='text-align:left;'>Used: "+usedSwap+"%</th></th>";
 	}
-}
-
-function filterDataForRAM(dataInner)
-{
-	dataInner = dataInner.substring(dataInner.indexOf("KiB Mem :")+9);
-	dataInner = dataInner.replace(/\s/g, '');
-	dataInner = dataInner.split(",");
-	//0 = total, 1 = free, 2 = used, 3 = cache
-	var totalRam = dataInner[0].substring(0, dataInner[0].length - 5);
-	var freeRam = dataInner[1].substring(0, dataInner[1].length - 4);
-	var usedRam = dataInner[2].substring(0, dataInner[2].length - 4);
-	var cacheRam = dataInner[3].substring(0, dataInner[3].length - 10);
-	filterDataForRamSubFunction(usedRam, cacheRam, totalRam,false);
 }
 
 function filterDataForRamSubFunction(usedRam, cacheRam, totalRam,skipCache)
@@ -1136,18 +1119,6 @@ function filterDataForRamSubFunction(usedRam, cacheRam, totalRam,skipCache)
 			document.getElementById('popupGraphLowerTr').innerHTML = "<th style='background-color:blue; width:25px;'><th  style='text-align:left;'>Used: "+usedRam+"%</th>";
 		}
 	}
-}
-
-function filterDataForCPU(dataInner)
-{
-	dataInner = dataInner.substring(dataInner.indexOf("%Cpu(s):")+8);
-	dataInner = dataInner.replace(/\s/g, '');
-	dataInner = dataInner.split(",");
-	//0 = user, 1 = system, 2 = other;
-	var userInfo = dataInner[0].substring(0, dataInner[0].length - 2);
-	var systemInfo = dataInner[1].substring(0, dataInner[1].length - 2);
-	var otherInfo = dataInner[2].substring(0, dataInner[2].length - 2);
-	filterDataForCPUSubFunction(userInfo, systemInfo, otherInfo);
 }
 
 function filterDataForCPUSubFunction(userInfo, systemInfo, otherInfo)
