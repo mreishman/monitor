@@ -72,7 +72,7 @@ $daysSince = calcuateDaysSince($configStatic['lastCheck']);
 				<div class="canvasMonitorText canvasMonitorTextTop">CPU</div>
 				<img id="canvasMonitorLoading_CPU" class="loadingSpinner" src='<?php echo $baseRedirectTwo; ?>core/img/loading.gif' height='50' width='50'> 
 				<canvas style="display: none;" class="canvasMonitor" id="cpuCanvas" width="200" height="200"></canvas>
-					<div class="canvasMonitorText canvasMonitorTextBottom">U <span id="canvasMonitorCPU_User">-</span>% | S <span id="canvasMonitorCPU_System">-</span>% | N <span id="canvasMonitorCPU_Other">-</span>%</div>
+					<div style="font-size: 88%;" class="canvasMonitorText canvasMonitorTextBottom">U <span id="canvasMonitorCPU_User">-</span>% | S <span id="canvasMonitorCPU_System">-</span>% | N <span id="canvasMonitorCPU_Other">-</span>%</div>
 			</div>
 			<div onclick="showGraphPopup('ramPopupCanvas','RAM','onePage')" style="cursor: pointer;" class="canvasMonitorDiv" >	
 				<div class="canvasMonitorText canvasMonitorTextTop">RAM</div>
