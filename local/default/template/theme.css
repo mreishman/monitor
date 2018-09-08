@@ -269,12 +269,6 @@ div {
 	border-radius: 0 0 10px 10px;
 }
 
-#topBarOverview{
-	overflow-x: auto;
-	height: 310px;
-	white-space: nowrap;
-}
-
 #processIds table tr:hover{
 	background-color: #ccc;
 	color: black;

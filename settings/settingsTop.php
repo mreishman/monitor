@@ -28,8 +28,11 @@ require_once('../core/php/updateCheck.php');
 
 <?php require_once('header.php');?>	
 	<div id="main">	
-		<?php require_once('../core/php/settingsTopMain.php'); ?>
-		<?php require_once('../core/php/settingsTop.php'); ?>
+		<?php require_once('../core/php/template/settingsTopMain.php'); ?>
+		<?php require_once('../core/php/template/settingsTop.php'); ?>
+		<?php require_once('../core/php/template/settingsCpu.php'); ?>
+		<?php require_once('../core/php/template/settingsDiskIO.php'); ?>
+		<?php require_once('../core/php/template/settingsNetwork.php'); ?>
 	</div>
 	<?php readfile('../core/html/popup.html') ?>	
 </body>

@@ -39,8 +39,6 @@ if($pollingRateOverviewSlowType === 'Seconds')
 }
 
 $daysSince = calcuateDaysSince($configStatic['lastCheck']);
-
-$useTop = false;
 ?>
 <!doctype html>
 <head>
@@ -48,6 +46,21 @@ $useTop = false;
 	<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl ?>template/theme.css">
 	<link rel="icon" type="image/png" href="<?php echo $baseRedirectTwo; ?>core/img/favicon.png" />
 	<script src="<?php echo $baseRedirect; ?>core/js/jquery.js"></script>
+	<style type="text/css">
+		<?php if($fixedHeightForBlocks === "true"): ?>
+			#topBarOverview{
+			overflow-x: auto;
+			height: 310px;
+			white-space: nowrap;
+		}
+		<?php else: ?>
+			#topBarOverview{
+				overflow-x: auto;
+				height: auto;
+				white-space: normal;
+			}
+		<?php endif; ?>
+	</style>
 </head>
 <body>
 
@@ -59,7 +72,7 @@ $useTop = false;
 				<div class="canvasMonitorText canvasMonitorTextTop">CPU</div>
 				<img id="canvasMonitorLoading_CPU" class="loadingSpinner" src='<?php echo $baseRedirectTwo; ?>core/img/loading.gif' height='50' width='50'> 
 				<canvas style="display: none;" class="canvasMonitor" id="cpuCanvas" width="200" height="200"></canvas>
-					<div class="canvasMonitorText canvasMonitorTextBottom">U <span id="canvasMonitorCPU_User">-</span>% | S <span id="canvasMonitorCPU_System">-</span>% | N <span id="canvasMonitorCPU_Other">-</span>%</div>
+					<div style="font-size: 88%;" class="canvasMonitorText canvasMonitorTextBottom">U <span id="canvasMonitorCPU_User">-</span>% | S <span id="canvasMonitorCPU_System">-</span>% | N <span id="canvasMonitorCPU_Other">-</span>%</div>
 			</div>
 			<div onclick="showGraphPopup('ramPopupCanvas','RAM','onePage')" style="cursor: pointer;" class="canvasMonitorDiv" >	
 				<div class="canvasMonitorText canvasMonitorTextTop">RAM</div>
@@ -113,6 +126,8 @@ $useTop = false;
 		echo "var dateOfLastUpdate = '".$configStatic['lastCheck']."';";
 		echo "var daysSinceLastCheck = '".$daysSince."';";
 		echo "var daysSetToUpdate = '".$autoCheckDaysUpdate."';";
+		echo "var ignoreLoopDisks = '".$ignoreLoopDisks."';";
+		echo "var ignoreLoopNetwork = '".$ignoreLoopNetwork."';";
 		?>
 	var dontNotifyVersion = "<?php echo $dontNotifyVersion;?>";
 	var currentVersion = "<?php echo $configStatic['version'];?>";
@@ -123,7 +138,6 @@ $useTop = false;
 		defaultArray.push(0);
 	}
 	var dataSwap = false;
-	var useTop = false;
 	var nullReturnForDefaultPoll = false;
 	var cpuInfoArray_User = [];
 	var cpuInfoArray_heightVar = [];
@@ -174,30 +188,6 @@ $useTop = false;
 	var swapAreaContext = swapArea.getContext("2d");
 
 	var numberOfCores = 0;
-
-	function topFunction()
-	{
-		if(nullReturnForDefaultPoll)
-		{
-			$.getJSON('functions/topAlt.php', {}, function(data) {
-				processDataFromTOP(data);
-			});
-		}
-		else
-		{
-			$.getJSON('<?php echo $baseRedirect; ?>core/php/top.php', {}, function(data) {
-				if(data == null)
-				{
-					nullReturnForDefaultPoll = true;
-					topFunction();
-				}
-				else
-				{
-					processDataFromTOP(data);
-				}
-			});
-		}
-	}
 
 	function psAuxFunction()
 	{
@@ -275,24 +265,10 @@ $useTop = false;
 		filterDataForDiskSpace(data);
 	}
 
-	function processDataFromTOP(data)
-	{
-		filterDataForCPU(data);
-		filterDataForRAM(data);
-		filterDataForCache(data);
-	}
-
 	function poll()
 	{
-		if(useTop)
-		{
-			topFunction();
-		}
-		else
-		{
-			procFree();
-			procStatFunc();
-		}
+		procFree();
+		procStatFunc();
 		procNetDev();
 		procDiskstatsFunc();
 	}
@@ -302,7 +278,7 @@ $useTop = false;
 		dfALFunction();
 		psAuxFunction();
 	}
-	
+
 	function resize()
 	{
 		var offsetHeight = 0;

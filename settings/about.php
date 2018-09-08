@@ -61,6 +61,10 @@ require_once('../core/php/updateCheck.php');
 				</li>
 			</ul>
 		</div>
+		<div class="settingsHeader">
+			Changelog
+		</div>
+		<?php readfile('changelog.html') ?>
 	</div>
 </body>
 <script src="../core/js/settings.js"></script>
