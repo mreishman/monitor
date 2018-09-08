@@ -1,7 +1,7 @@
 <?php
 
 $versionCheckArray = array(
-	'version'		=> '1.1.5',
+	'version'		=> '1.1.6',
 	'versionList'		=> array(
 		'1.1'	        => array(
 			'branchName'	=> '1.1Update',
@@ -26,6 +26,10 @@ $versionCheckArray = array(
 		'1.1.5'	        => array(
 			'branchName'	=> '1.1.5Update',
 			'releaseNotes'	=> '<ul><li>Bug Fixes<ul><li>Style fix for low res monitors (one column)</li><li>Switched from ioStat to just reading /proc/diskstats for better compatability</li><li>Better style for scrollbars</li><li>Changed base poll request to be 1.5s from 1s (has to be greater than 1 or will start adding delays between requests)</li></ul></li></ul>'
+		),
+		'1.1.6'	        => array(
+			'branchName'	=> '1.1.6Update',
+			'releaseNotes'	=> '<ul><li>Features<ul><li>Added option to hide loop drives / lo addresses</li><li>Added option to show / hide more blocks on overview page</li></ul></li><li>Bug Fixes<ul><li>Moved changelog to about page</li><li>Fixed bug with style of loading gif for network when in upper block area</li><li>Fixed style issue with font sizes for cpu info (on overview page)</li></ul></li></ul>'
 		),
 	)
 );
